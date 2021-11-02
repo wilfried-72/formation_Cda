@@ -1,7 +1,8 @@
 # Mes Projets react lors de la formation CDA
 
 # All branch
-master (react_tuto_wil)
+- master (react_tuto_wil)
+- react-Redux (tuto)
 
 
 # Projets realisés par liwza basé sur tuto:
