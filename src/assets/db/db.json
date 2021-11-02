@@ -24,7 +24,8 @@
   ],
   "users": [
     {
-      "pseudo": "user42",
+      "pseudo": "wil",
+      "age": 45,
       "likes": 21,
       "id": 1
     }

@@ -3,7 +3,7 @@ import axios from "axios";
 //En debut de fichier: table des matieres de toutes nos actions pour les reducer
 export const GET_USERS = "GET_USERS"
 
-export const getUSERS = () => {
+export const getUser = () => {
     return (dispatch) => {
         // ici on recupere les data dans la bases de données
         // voir dans doc axios
