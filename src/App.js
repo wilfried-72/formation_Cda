@@ -1,71 +1,31 @@
-// mis en commentaire car pas use dans tuto
-// import component home
+import React from "react";
+import { useSelector } from "react-redux";
+import PostForm from "./components/PostForm";
+import User from "./components/User";
+import Post from "./components/Post";
 
-// import Home from "./page/Home";
-// import logo from './logo.svg';
-// import './App.css';
-
-//Code installé par defaut
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-//ancien code perso pour afficher texte de home:
-
-// function App() {
-//   return (
-//     ancien code
-//     <div className="App">
-//     <h1>Mon premier tuto React </h1>
-//     ci dessous pour afficher component Home pour ex*
-//     <Home/>   
-//     </div>
-//   );
-// }
-// export default App;
-
-import React from 'react';
-
-// importation pour faire la navigation de route avec react-router-dom
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import About from './pages/About';
-import Home from "./pages/Home";
-import News from './pages/News';
-import Page404 from "./pages/Page404";
-
+// import la fonction isEmpty dans le fichier utils.js
+import {isEmpty} from "./components/Utils"
 
 const App = () => {
 
+  // on recupere les data de notre store au niveau du post reducer
+  const posts = useSelector((state) => state.postReducer)
+//console.log(posts)
   return (
-  // Router React
-  <BrowserRouter>
-  <Switch>
-    {/* exact signifie seulement le / */}
-    <Route path="/" exact component={Home} />
-    <Route path="/news" exact component={News} />
-    <Route path="/a-propos" exact component={About}/>
-    {/* A la fin si pas de route determiner alors page404 */}
-    <Route component={Page404} /> 
-  </Switch>
-  </BrowserRouter>
+    <div>
+      <h1>Extreme</h1>
+      <PostForm />
+      <div className="content">
+        <div className="post-container">
+          {/* ici on map les data contenu dans le post dans l'enafnt Post */}
+          {/* Le map s'effectue si post n'est pas vide via la fct isEmpty */}
+          {!isEmpty(posts) && posts.map((post, index) => (<Post post={post} key ={index} />
+          ))}
+          </div>
+        <User />
+      </div>
+    </div>
   );
 };
 
