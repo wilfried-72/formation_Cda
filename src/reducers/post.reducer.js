@@ -1,4 +1,4 @@
-import { ADD_POST, DELETE_POST, EDIT_POST, GET_POST } from "../actions/post.action";
+import { ADD_LIKE, ADD_POST, DELETE_POST, EDIT_POST, GET_POST } from "../actions/post.action";
 
 const initialState = {};
 
@@ -26,9 +26,19 @@ export default function postReducer(state = initialState, action) {
           //sinon on renvoi le post d'origine
         } else return post;
       });
-      case DELETE_POST:
-        //   ici on remap tout le post sauf celui avec lid à supprimer
-          return state.filter((post) => PopStateEvent.id !== action.payload.postId)
+    case DELETE_POST:
+      //   ici on remap tout le post sauf celui avec lid à supprimer
+      return state.filter((post) => post.id !== action.payload.postId)
+
+    case ADD_LIKE:
+      return state.map((post) => {
+        if (post.id === action.payload.id) {
+          return {
+            ...post,
+            likes: action.payload.likes,
+          };
+        } else return post;
+      })
     default:
       return state;
   }

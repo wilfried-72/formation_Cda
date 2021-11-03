@@ -48,7 +48,7 @@ const Post = ({ post, index }) => {
           <img onClick={handleDel} src="./icons/delete.svg" alt="del" />
         </div>
       )}
-      <h1>Article {index === 0 ? null : index}</h1>
+      <h2>Article {index === 0 ? null : index}</h2>
       <h3>{post.title}</h3>
       <img
         src="https://picsum.photos/1500/400"

@@ -1,4 +1,4 @@
-import { GET_USERS } from "../actions/user.action"
+import { ADD_USER_LIKE, GET_USERS } from "../actions/user.action"
 
 const initialState = {}
 
@@ -10,7 +10,18 @@ export default function userReducer(state = initialState, action) {
         // et par défaut la variable state qui est vide via initialSate 
         case GET_USERS:
             return action.payload
+        case ADD_USER_LIKE:
+            return state.map((user) => {
+                // console.log(user.id)
+                if (user.id === action.payload.id) {
+                    return {
+                        ...user,
+                        likes: action.payload.likes,
+                    };
+                } else return user;
+            })
         default:
             return state
     }
 }
+
