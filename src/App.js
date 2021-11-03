@@ -20,7 +20,7 @@ const App = () => {
         <div className="post-container">
           {/* ici on map les data contenu dans le post dans l'enafnt Post */}
           {/* Le map s'effectue si post n'est pas vide via la fct isEmpty */}
-          {!isEmpty(posts) && posts.map((post, index) => (<Post post={post} key ={index} />
+          {!isEmpty(posts) && posts.map((post, index) => (<Post post={post} index={index} key ={index} />
           ))}
           </div>
         <User />

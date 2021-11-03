@@ -1,8 +1,11 @@
 import axios from "axios";
 
 //En debut de fichier: table des matieres de toutes nos actions pour les reducer
-export const GET_POSTS = "GET_POSTS"
-export const ADD_POSTS = "ADD_POSTS"
+export const GET_POST = "GET_POST"
+export const ADD_POST = "ADD_POST"
+export const EDIT_POST = "EDIT_POST"
+export const DELETE_POST = "DELETE_POST"
+
 
 export const getPosts = () => {
     return (dispatch) => {
@@ -13,7 +16,7 @@ export const getPosts = () => {
                 // renvoi les data du type GET_POSTS pour notre exemple avec les data dans la reponse avec payload
                 //dispatch veut dire va dans les reducers via index.js de reducers 
                 dispatch({
-                    type: GET_POSTS,
+                    type: GET_POST,
                     payload: res.data,
                 })
                 // si ne fonctionne pas alors console err
@@ -30,8 +33,49 @@ export const addPosts = (data) => {
         return axios.post("http://localhost:3003/posts", data)
             .then((res) => {
                 dispatch({
-                    type: ADD_POSTS,
+                    type: ADD_POST,
                     payload: data,
+                })
+                // si ne fonctionne pas alors console err
+            })
+            .catch((err) => console.log(err))
+    }
+
+}
+
+export const editPosts = (data) => {
+    return (dispatch) => {
+        // ici on recupere les data dans la bases de données et on le tri par ordre decroissant via l'id
+        // voir dans doc axios
+        return axios({
+        method: "put",
+        url: `http://localhost:3003/posts/${data.id}`,
+        data: {...data}
+        })
+        .then((res) => {
+                dispatch({
+                    type: EDIT_POST,
+                    payload: {...data}
+                })
+                // si ne fonctionne pas alors console err
+            })
+            .catch((err) => console.log(err))
+    }
+
+}
+
+export const deletePost = (postId) => {
+    return (dispatch) => {
+        // ici on recupere les data dans la bases de données et on le tri par ordre decroissant via l'id
+        // voir dans doc axios
+        return axios({
+        method: "delete",
+        url: `http://localhost:3003/posts/${postId}`,
+        })
+        .then((res) => {
+                dispatch({
+                    type: DELETE_POST,
+                    payload: {postId}
                 })
                 // si ne fonctionne pas alors console err
             })

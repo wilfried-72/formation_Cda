@@ -6,7 +6,7 @@ const User = () => {
 
   const user = useSelector((state) => state.userReducer)
 
-  console.log("user", user)
+  //console.log("user", user)
   return (
     <div className="user-container">
       <div className="user">
