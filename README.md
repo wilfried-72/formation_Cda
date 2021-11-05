@@ -1,5 +1,16 @@
+<<<<<<< HEAD
 # branch react-Redux
 tuto pour utilisation react-redux
+=======
+# Mes Projets react lors de la formation CDA
+
+# Version nodeJs use
+- V14.18.1
+
+# All branch
+- master (react_tuto_wil)
+- react-Redux (tuto)
+>>>>>>> 23ae4067ffc8abe37ec19d351a991b3875a0ab52
 
 # Version nodeJS use
 V14.18.1
