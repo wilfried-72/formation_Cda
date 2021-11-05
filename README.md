@@ -1,5 +1,8 @@
 # Mes Projets react lors de la formation CDA
 
+# Version nodeJs use
+- V14.18.1
+
 # All branch
 - master (react_tuto_wil)
 - react-Redux (tuto)
