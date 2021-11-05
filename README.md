@@ -1,6 +1,8 @@
 # branch react-Redux
 tuto pour utilisation react-redux
 
+# Version nodeJS use
+V14.18.1
 
 # Projets realisés par liwza basé sur tuto:
 From Scratch
