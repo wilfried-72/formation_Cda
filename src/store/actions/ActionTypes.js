@@ -2,12 +2,11 @@
  * Action types { ... }
  * ******************** */
 
-// News
-export const GET_NEWS_DATA = "GET_NEWS_DATA";
-export const ADD_NEWS_DATA = "ADD_NEWS_DATA";
+// FAVORIS
+// export const GET_FAVORIS_DATA = "GET_FAVORIS_DATA";
+// export const ADD_FAVORIS_DATA = "ADD_FAVORIS_DATA";
+// export const EDIT_FAVORIS_DATA = "EDIT_FAVORIS_DATA";
+// export const DELETE_FAVORIS_DATA = "DELETE_FAVORIS_DATA";
 
-// Countries
-export const GET_COUNTRIES_DATA = "GET_COUNTRIES_DATA";
-
-// Weather
-export const GET_WEATHER_DATA = "GET_WEATHER_DATA"
+// METEO
+export const GET_APIMETEO_DATA = "GET_APIMETEO_DATA";

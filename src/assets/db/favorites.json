@@ -1,0 +1,15 @@
+{
+  "favorites": [{
+      "nom": "PARIS",
+      "IsSelected": true,
+      "date": 1621530288602,
+      "id": 1
+    },
+    {
+      "nom": "LE MANS",
+      "date": 1621530288602,
+      "IsSelected": true,
+      "id": 1
+    }
+  ]
+}

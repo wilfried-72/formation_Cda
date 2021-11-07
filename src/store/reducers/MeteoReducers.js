@@ -14,12 +14,12 @@ const initialState = {
 /*
  * Reducers
  * ******** */
-export function WeatherReducer(state = initialState, action) {
+export function MeteoReducer(state = initialState, action) {
   switch (action.type) {
-    default:
-      return state;
-    case Actions.GET_WEATHER_DATA:
+    case Actions.GET_APIMETEO_DATA:
       return { ...state, data: action.payload };
+      default:
+        return state;
   }
 }
 

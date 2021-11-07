@@ -1,29 +1,32 @@
 
 /*
- * React
+ *  importation React
  * ***** */
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 
 /*
- * Reducers
+ * immportation Reducers
  * ******** */
-import { ArticleReducer } from "./reducers/ArticleReducers";
-import { CountriesReducer } from "./reducers/CountriesReducers";
-import { WeatherReducer } from "./reducers/WeatherReducers";
+import { MeteoReducer } from "./reducers/MeteoReducers";
 
 /*
  * All (Root) Reducers
  * ******************* */
 const rootReducer = combineReducers({
-  article: ArticleReducer,
-  countries: CountriesReducer,
-  weather: WeatherReducer
+  // favoris: FavorisReducer ,
+  meteo: MeteoReducer,
 });
 
 /*
  * Store export
  * ************ */
-export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk))); // Dev
+
+// Seulement à mettre en mode Dev et à enlever pour le build
+// cela permet de voir les store avec l'extention redux DevTools
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk))); 
+// Fin mode dev
+
+
 // export const store = createStore(rootReducer); // Prod

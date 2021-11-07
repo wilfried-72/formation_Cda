@@ -1,7 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Fichier de config
-.env
+# Fichier de configi
+ici en commentaire pour notre tutu
+# .env
 
 # dependencies
 /node_modules

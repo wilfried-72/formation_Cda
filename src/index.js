@@ -1,14 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import "./assets/scss/index.scss";
 // import './assets/css/index.css';
 import App from './App';
+
+//imortation du store
+import { store } from "./store";
+// ici l'index.js dans ce dossier est pris par defaut
+// REM: si pas de fichier index, il faut preciser le fichier que l'on importe
+
 import reportWebVitals from './tests/reportWebVitals';
+import { Provider } from 'react-redux';
+
+// Actions (*)
+// import { getNews } from './store/actions/ArticleActions'
+
+// recuperation des datas ci-dessous dans le store
+// store.dispatch(getNews())
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  // implementation du store avec provider qui englobe toute l'application
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 

@@ -1,30 +1,17 @@
-import { Card, CardContent, CardMedia, Container, Typography } from "@mui/material";
+import { Container} from "@mui/material";
 import React from "react";
+import Current from "../components/Current";
+import Main from "../components/Main";
 
-const home = () => {
+
+const Home = () => {
   return (
     <Container maxWidth="xl">
-      <h1>Home</h1>
-
-      <Card>
-      <CardMedia
-        component="img"
-        height="140"
-        image="http://ageheureux.a.g.pic.centerblog.net/clipart_meteo_temps_014.png"
-        alt="green iguana"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Lizard
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
-        </Typography>
-      </CardContent>
-    </Card>
+      <Current/>
+      {/* < Main /> */}
     </Container>
+    
   );
 };
 
-export default home;
+export default Home;

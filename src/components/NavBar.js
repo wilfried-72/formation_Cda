@@ -1,5 +1,11 @@
+// React
 import React from "react";
 import { Link } from "react-router-dom";
+
+// Redux
+import { useSelector } from "react-redux";
+
+// Material UI
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -14,9 +20,17 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Container from "@mui/material/Container";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
-import { Fab } from "@mui/material";
+
+// store
+// import { store } from "../store";
+// import { getMeteo } from '../store/actions/MeteoActions'
 
 const NavBar = () => {
+
+
+  // on recupere les datas dans le store dont les "routes" sont défenies dans index.js du dossier store  puis reducer puis action
+  const data = useSelector(state => state.meteo.data);
+
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -76,14 +90,15 @@ const NavBar = () => {
           <AppBar position="static">
             <Toolbar>
               <Tooltip title="Menu">
-                <IconButton
+                <IconButton 
+                onClick={handleClick} 
                   size="large"
                   edge="start"
                   color="inherit"
                   aria-label="open drawer"
                   sx={{ mr: 2 }}
                 >
-                  <MenuIcon onClick={handleClick} />
+                  <MenuIcon />
                 </IconButton>
               </Tooltip>
               <Typography
@@ -102,7 +117,7 @@ const NavBar = () => {
                 component="div"
                 sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
               >
-                Ville
+               {data.name}
               </Typography>
 
               <Search>

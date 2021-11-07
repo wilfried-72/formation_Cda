@@ -6,6 +6,8 @@ import Favoris from "./pages/Favoris";
 import Home from "./pages/Home";
 import Page404 from "./pages/Page404";
 
+
+
 const App = () => {
   return (
     <BrowserRouter>
