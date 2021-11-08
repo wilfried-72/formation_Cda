@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 // Material UI
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -22,14 +21,21 @@ import Container from "@mui/material/Container";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 
 // store
-// import { store } from "../store";
-// import { getMeteo } from '../store/actions/MeteoActions'
+import { store } from "../store";
+import { getMeteo } from "../store/actions/MeteoActions";
+
 
 const NavBar = () => {
+  const select = ["Paris", "Dubai", "Londres", "Le Mans"];
 
+  function handleChangeSelect(e) {
+    // console.log("Selected!!", e.target.value);
+    // ici on demande un getMeteo en fonction de la ville du select puis on execute l'api et les datas renvoyées son mmises dans le store
+    if (e.target.value.length > 0) store.dispatch(getMeteo(e.target.value));
+  }
 
   // on recupere les datas dans le store dont les "routes" sont défenies dans index.js du dossier store  puis reducer puis action
-  const data = useSelector(state => state.meteo.data);
+  const data = useSelector((state) => state.meteo.data);
 
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -85,13 +91,11 @@ const NavBar = () => {
 
   return (
     <div>
-      <Container maxWidth="xl">
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
+           <AppBar position="static">
             <Toolbar>
               <Tooltip title="Menu">
-                <IconButton 
-                onClick={handleClick} 
+                <IconButton
+                  onClick={handleClick}
                   size="large"
                   edge="start"
                   color="inherit"
@@ -107,7 +111,7 @@ const NavBar = () => {
                 component="div"
                 sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
               >
-                <WbSunnyOutlinedIcon sx={{ height: 20}}/>
+                <WbSunnyOutlinedIcon sx={{ height: 20 }} />
                 Meteo
               </Typography>
 
@@ -117,8 +121,23 @@ const NavBar = () => {
                 component="div"
                 sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
               >
-               {data.name}
+                {data.name}
               </Typography>
+
+              <select
+                id="country"
+                name="country"
+                onChange={(e) => handleChangeSelect(e)}
+              >
+                {select.map((select) => {
+                  return (
+                    <option value={select} key={select}>
+                      {select}
+                    </option>
+                  );
+                })}
+              </select>
+
 
               <Search>
                 <SearchIconWrapper>
@@ -180,8 +199,6 @@ const NavBar = () => {
               </Menu>
             </Toolbar>
           </AppBar>
-        </Box>
-      </Container>
     </div>
   );
 };

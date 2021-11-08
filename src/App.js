@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import About from "./pages/About";
@@ -9,6 +10,7 @@ import Page404 from "./pages/Page404";
 
 
 const App = () => {
+  
   return (
     <BrowserRouter>
       <NavBar />
@@ -18,7 +20,7 @@ const App = () => {
         <Route path="/favoris" exact element={<Favoris />} />
         <Route element={<Page404 />} />
       </Routes>
-    </BrowserRouter>
+    </BrowserRouter>    
   );
 };
 

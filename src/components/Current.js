@@ -1,96 +1,70 @@
 // React
-import * as React from 'react';
+import * as React from "react";
 
 //Material UI
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
 
 // Redux
 import { useSelector } from "react-redux";
+import { style } from "@mui/system";
 
 // store
-import { store } from "../store";
-import { getMeteo } from '../store/actions/MeteoActions'
 
-
-// Component 
+// Component
 const Current = () => {
-
-    // on recupere les datas dans le store dont les "routes" sont défenies dans index.js du dossier store  puis reducer puis action
-   const data = useSelector(state => state.meteo.data);
-  const select = ["Paris", "Dubai", "Londres", "Le Mans"];
-
-  function handleChangeSelect(e) {
-    // console.log("Selected!!", e.target.value);
-    // ici on demande un getMeteo en fonction de la ville du select puis on execute l'api et les datas renvoyées son mmises dans le store
-    if (e.target.value.length > 0) store.dispatch(getMeteo(e.target.value));
-  }
+  // on recupere les datas dans le store dont les "routes" sont défenies dans index.js du dossier store  puis reducer puis action
+  const data = useSelector((state) => state.meteo.data);
 
   return (
     <div>
-      {/* On recupère l'event du select pas de l'option */}
-      <select
-        id="country"
-        name="country"
-        onChange={(e) => handleChangeSelect(e)}
-      >
-        {select.map((select) => {
-          return (
-            <option value={select} key={select}>
-              {select}
-            </option>
-          );
-        })}
-      </select>
-
       {/* C'est une condition !!
         - https://reactjs.org/docs/conditional-rendering.html
     */}
       {data.weather && (
-        <div className="CountryIndice" id={data.weather[0].main}>
-          <li className="Pays">{data.name}</li>
-          <li>{Math.round(data.main.temp)}Â°C</li>
-          <li className="weatherDescr" key={data.weather[0].id}>
-            {data.weather[0].description}
-          </li>
-        </div>
-      )}
-
-
-      {data.weather && (
-        <Card sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-
+        <Card sx={"background:none"}>
           <CardMedia
             component="img"
-            sx={{ width: 151, alignItems: 'center' }}
-            image="http://ageheureux.a.g.pic.centerblog.net/clipart_meteo_temps_014.png"
+            sx={{ width: 100, alignItems: "center", borderRight: "black  " }}
+            image={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
             alt="Live from space album cover"
           />
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <CardContent sx={{ flex: '1 0 auto' }}>
-              <Typography component="div" variant="h5">
-                Live From Space
-              </Typography>
-              <Typography variant="subtitle1" color="text.secondary" component="div">
-                Mac Miller
-              </Typography>
+          <CardContent sx={{ flex: "1 0 auto" }}>
+            <Typography component="div" variant="h4">
+              {data.weather[0].description}
+            </Typography>
 
-              <Typography variant="subtitle1" color="text.secondary">
-                dsdc
-              </Typography>
-            </CardContent>
-          </Box>
+            <Typography variant="h5" color="text.secondary" component="div">
+              {Math.round(data.main.temp)}°C Ress:
+              {Math.round(data.main.feels_like)}
+            </Typography>
+
+            <Typography mt={2} component="p" color="text.secondary">
+              T min: {data.main.temp_min} °C
+            </Typography>
+
+            <Typography component="p" color="text.secondary">
+              T max: {data.main.temp_max} °C
+            </Typography>
+
+            <Typography mt={2} component="p" color="text.secondary">
+              Humidité: {Math.round(data.main.humidity)} %
+            </Typography>
+
+            <Typography component="p" color="text.secondary">
+              Pression: {data.main.pressure} pa
+            </Typography>
+
+            <Typography mt={2} component="p" color="text.secondary">
+              Vent: {Math.round(data.wind.speed * 3.6)} km/h
+            </Typography>
+          </CardContent>
         </Card>
       )}
     </div>
-
-
-  )
-}
+  );
+};
 
 export default Current;
-
-
