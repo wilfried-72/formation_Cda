@@ -26,7 +26,7 @@ export const getMeteo = (country) => {
         },
 
       }).then((res) => {
-        console.log("DATA", country, res.data);
+        //console.log("DATA", country, res.data);
         dispatch({ type: GET_APIMETEO_DATA, payload: res.data });
 
       }).catch((err) => console.log(err));

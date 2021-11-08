@@ -21,9 +21,10 @@ $color-4: rgb(32, 35, 42);
 //   //   "Haze", "Dust", "Fog", "Sand", "Dust", "Ash", "Squall", "Tornado";
 // }
 
-$names: "Clear", "Clouds", "Thunderstorm";
+$names: "ClearN", "CloudsN","ClearD", "CloudsD";
 @each $name in $names {
   .#{Bg_#{$name}} {
+    // background-image: url("../../public/images/Bg/Bg_#{$name}.jpg");
     background-image: url("../images/Bg_#{$name}.jpg");
     background-size: cover;
     height: 100%;

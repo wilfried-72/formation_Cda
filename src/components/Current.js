@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography";
 
 // Redux
 import { useSelector } from "react-redux";
-import { style } from "@mui/system";
 
 // store
 
@@ -24,12 +23,13 @@ const Current = () => {
         - https://reactjs.org/docs/conditional-rendering.html
     */}
       {data.weather && (
-        <Card sx={"background:none"}>
+        <Card style={{backgroundColor: 'transparent'}}>
           <CardMedia
             component="img"
-            sx={{ width: 100, alignItems: "center", borderRight: "black  " }}
-            image={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
-            alt="Live from space album cover"
+            sx={{ width:250 }}
+            // image={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
+          image={`../images/iconMeteo/${data.weather[0].icon}.svg`}
+            alt={`${data.weather[0].icon}`}
           />
           <CardContent sx={{ flex: "1 0 auto" }}>
             <Typography component="div" variant="h4">
@@ -42,11 +42,11 @@ const Current = () => {
             </Typography>
 
             <Typography mt={2} component="p" color="text.secondary">
-              T min: {data.main.temp_min} °C
+              T min: {Math.round(data.main.temp_min)} °C
             </Typography>
 
             <Typography component="p" color="text.secondary">
-              T max: {data.main.temp_max} °C
+              T max: {Math.round(data.main.temp_max)} °C
             </Typography>
 
             <Typography mt={2} component="p" color="text.secondary">
