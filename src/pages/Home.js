@@ -7,14 +7,18 @@ import Current from "../components/Current";
 const Home = () => {
   const data = useSelector((state) => state.meteo.data);
   // const dayOrNight = data.weather[0].icon;
-  
 
   return (
-
     <div>
       {data.weather && (
-        <Container className={"Bg_"+data.weather[0].main+"N"} >
-         {/* { dayOrNight } */}
+        // <Container className={"Bg_"+data.weather[0].main+"N"} >
+        //  {/* { dayOrNight } */}
+        //   <Current />
+        //   {/* < Main /> */}
+        // </Container>
+
+        <Container className={"Bg_" + data.weather[0].main + "D"}>
+          {/* { dayOrNight } */}
           <Current />
           {/* < Main /> */}
         </Container>
