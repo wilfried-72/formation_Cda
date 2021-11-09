@@ -2,7 +2,7 @@
 import * as React from "react";
 
 //Material UI
-import Card from "@mui/material/Card";
+// import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
@@ -23,7 +23,7 @@ const Current = () => {
         - https://reactjs.org/docs/conditional-rendering.html
     */}
       {data.weather && (
-        <Card style={{backgroundColor: 'transparent'}}>
+        <div style={{backgroundColor: 'transparent',borderColor:"none"}}>
           <CardMedia
             component="img"
             sx={{ width:250 }}
@@ -61,7 +61,7 @@ const Current = () => {
               Vent: {Math.round(data.wind.speed * 3.6)} km/h
             </Typography>
           </CardContent>
-        </Card>
+        </div>
       )}
     </div>
   );

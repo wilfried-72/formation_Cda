@@ -1,23 +1,21 @@
 import { Container } from "@mui/material";
-import React from "react";
 import { useSelector } from "react-redux";
 import Current from "../components/Current";
 // import Main from "../components/Main";
 
 const Home = () => {
-  const data = useSelector((state) => state.meteo.data);
-  // const dayOrNight = data.weather[0].icon;
+  const dataCurrent = useSelector((state) => state.meteo.data);
 
   return (
     <div>
-      {data.weather && (
-        // <Container className={"Bg_"+data.weather[0].main+"N"} >
+      {dataCurrent.weather && (
+        // <Container className={"Bg_"+dataCurrent.weather[0].main+"N"} >
         //  {/* { dayOrNight } */}
         //   <Current />
         //   {/* < Main /> */}
         // </Container>
 
-        <Container className={"Bg_" + data.weather[0].main + "D"}>
+        <Container className={"Bg_" + dataCurrent.weather[0].main + "D"}>
           {/* { dayOrNight } */}
           <Current />
           {/* < Main /> */}

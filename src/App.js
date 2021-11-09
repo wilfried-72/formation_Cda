@@ -6,8 +6,6 @@ import Favoris from "./pages/Favoris";
 import Home from "./pages/Home";
 import Page404 from "./pages/Page404";
 
-
-
 const App = () => {
   
   return (
@@ -17,7 +15,7 @@ const App = () => {
         <Route path="/" exact element={<Home />} />
         <Route path="/a-propos" exact element={<About />} />
         <Route path="/favoris" exact element={<Favoris />} />
-        <Route element={<Page404 />} />
+        <Route path='*' element={<Page404 />} />
       </Routes>
     </BrowserRouter>    
   );

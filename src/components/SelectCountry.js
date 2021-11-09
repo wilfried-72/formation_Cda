@@ -7,7 +7,7 @@ import { Box, styled } from "@mui/system";
 
 //redux
 import { store } from "../store";
-import { getMeteo } from "../store/actions/MeteoActions";
+import { getMeteoCurrent } from "../store/actions/MeteoActions";
 
 const SelectCountry = () => {
   const CssTextField = styled(TextField)({
@@ -19,18 +19,21 @@ const SelectCountry = () => {
     },
   });
 
-  const [value, setValue] = useState("");
+   const [value, setValue] = useState("");
   // console.log(value)
   function handleChangeSelect(e, newValue) {
     setValue(newValue);
-    console.log(newValue);
-    if (newValue) store.dispatch(getMeteo(newValue.name));
+    //console.log(newValue);
+
+    if (newValue) {
+     store.dispatch(getMeteoCurrent(newValue.name))
+     };
   }
   return (
     <Autocomplete
       value={value}
       onChange={(e, newValue) => handleChangeSelect(e, newValue)}
-      sx={{ width: 300}}
+      sx={{ width: 300 }}
       options={countries}
       autoHighlight
       freeSolo

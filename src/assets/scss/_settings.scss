@@ -1,5 +1,6 @@
 //Roboto font for MUI
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
+
 //Font icons for MUI
 // @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
@@ -21,25 +22,32 @@ $color-4: rgb(32, 35, 42);
 //   //   "Haze", "Dust", "Fog", "Sand", "Dust", "Ash", "Squall", "Tornado";
 // }
 
-$names: "ClearN", "CloudsN","ClearD", "CloudsD";
+$names: "ClearN", "CloudsN", "ClearD", "CloudsD";
+
 @each $name in $names {
-  .#{Bg_#{$name}} {
-    // background-image: url("../../public/images/Bg/Bg_#{$name}.jpg");
-    background-image: url("../images/Bg_#{$name}.jpg");
-    background-size: cover;
-    height: 100%;
-  }
+    .#{Bg_#{$name}} {
+        // background-image: url("../../public/images/Bg/Bg_#{$name}.jpg");
+        background-image: url("../images/Bg/Bg_#{$name}.jpg");
+        background-size: cover;
+    }
 }
 
 li {
-  list-style-type: none;
+    list-style-type: none;
 }
 
 a {
-  text-decoration: none;
-  color: $color-3;
-  cursor: pointer;
+    text-decoration: none;
+    color: $color-3;
+    cursor: pointer;
 }
+
 a:visited {
-  color: $color-3;
+    color: $color-3;
+}
+
+.Page404 {
+  background-image: url("../images/404/404.gif");
+  background-size: cover;
+  height: 100%;
 }

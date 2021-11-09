@@ -55,7 +55,7 @@ const NavBar = () => {
             variant="h5"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{ flexGrow: 1, display: { xs: "none", md: "block" } }}
           >
             <WbSunnyOutlinedIcon sx={{ height: 20 }} />
             Meteo
@@ -107,17 +107,17 @@ const NavBar = () => {
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
             <MenuItem>
-              <Link exact to="/">
+              <Link to="/">
                 Météo
               </Link>
             </MenuItem>
             <MenuItem>
-              <Link exact to="favoris">
+              <Link to="favoris">
                 Favoris
               </Link>
             </MenuItem>
             <MenuItem>
-              <Link exact to="a-propos">
+              <Link to="a-propos">
                 A propos
               </Link>
             </MenuItem>

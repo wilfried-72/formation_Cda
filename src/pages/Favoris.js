@@ -4,8 +4,8 @@ import { Container } from "@mui/material";
 const Favoris = () => {
   return (
     <div>
-      <Container maxWidth="xl">
-        <h1>Favoris</h1>
+      <Container maxWidth="xl" sx={{ pt: 2 }}>
+        <h2>Favoris</h2>
       </Container>
     </div>
   );
