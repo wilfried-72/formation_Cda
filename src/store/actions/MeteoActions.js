@@ -26,7 +26,7 @@ export const getMeteoCurrent = (country) => {
         },
 
       }).then((res) => {
-        //console.log("DATA", country, res.data);
+        // console.log("DATA_CURRENT", country, res.data);
         dispatch({ type: GET_APIMETEO_CURRENT_DATA, payload: res.data });
       }).catch((err) => console.log(err));
   };
@@ -35,7 +35,7 @@ export const getMeteoCurrent = (country) => {
 // Get Meteo All APi with long and lat 
 export const getMeteoAll = (lat, long) => {
   return (dispatch) => {
-    return axios.get("https://api.openweathermap.org/data/2.5/onecall?", {
+      return axios.get("https://api.openweathermap.org/data/2.5/onecall?", {
         params: {
           lat: lat, lon: long, units: "metric", lang: "fr",
          // ce genre de clé est à mettre dans un .env
@@ -43,9 +43,10 @@ export const getMeteoAll = (lat, long) => {
         },
 
       }).then((res) => {
-        console.log("DATA", lat, long, res.data);
+        // console.log("DATA_ALL", lat, long, res.data);
         dispatch({ type: GET_APIMETEO_ALL_DATA, payload: res.data });
 
       }).catch((err) => console.log(err));
   };
 };
+
