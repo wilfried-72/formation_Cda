@@ -23,18 +23,21 @@ const Current = () => {
         - https://reactjs.org/docs/conditional-rendering.html
     */}
       {data.weather && (
-        <div style={{backgroundColor: 'transparent',borderColor:"none"}}>
-          <CardMedia
-            component="img"
-            sx={{ width:250 }}
-            // image={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
-          image={`../images/iconMeteo/${data.weather[0].icon}.svg`}
-            alt={`${data.weather[0].icon}`}
-          />
-          <CardContent sx={{ flex: "1 0 auto" }}>
+        <div style={{ backgroundColor: 'transparent', borderColor: "none" }}>
+
+          <CardContent sx={{  textAlign: 'center' }}>
             <Typography component="div" variant="h4">
               {data.weather[0].description}
             </Typography>
+
+
+            <CardMedia
+              component="img"
+              sx={{ width: 250 }}
+              // image={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
+              image={`../images/iconMeteo/${data.weather[0].icon}.svg`}
+              alt={`${data.weather[0].icon}`}
+            />
 
             <Typography variant="h5" color="text.secondary" component="div">
               {Math.round(data.main.temp)}°C Ress:
