@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Current from "../components/Current";
 import ForeCast from "../components/ForeCast";
+import Main from "../components/main";
 import { store } from "../store";
 import { getMeteoAll } from "../store/actions/MeteoActions";
 
@@ -32,19 +33,20 @@ const Home = () => {
           {/* { dayOrNight } */}
           <Current />
 
+          <Main dataCurrent={dataCurrent} />
+
           <Box
             component="div"
             sx={{
               display: "flex",
-              flexWrap: "nowrap",
-              // justifyContent: "space-around",
-              overflow: "visible",
+              backgroundColor: "rgba(76,163,221,1 )", borderRadius:"10px" , m:2,  border: "1px white"
             }}
           >
             {dataAll.daily.map((daily, index) => (
               <ForeCast daily={daily} key={index} />
             ))}
           </Box>
+
         </Container>
       )}
     </div>
