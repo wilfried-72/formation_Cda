@@ -8,6 +8,7 @@ import { Box, styled } from "@mui/system";
 //redux
 import { store } from "../store";
 import { getMeteoCurrent } from "../store/actions/MeteoActions";
+import { useSelector } from "react-redux";
 
 const SelectCountry = () => {
   const CssTextField = styled(TextField)({
@@ -19,15 +20,21 @@ const SelectCountry = () => {
     },
   });
 
-   const [value, setValue] = useState("");
+  // const country = useSelector((state) => state.meteo.country);
+  // console.log(country)
+  const countryData = useSelector((state) => state.meteo.countryData)
+  console.log("country", countryData)
+
+  const [value, setValue] = useState("");
   // console.log(value)
   function handleChangeSelect(e, newValue) {
     setValue(newValue);
     //console.log(newValue);
 
+ 
     if (newValue) {
-     store.dispatch(getMeteoCurrent(newValue.name))
-     };
+      store.dispatch(getMeteoCurrent(newValue.name))
+    };
   }
   return (
     <Autocomplete

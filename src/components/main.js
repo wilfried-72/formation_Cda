@@ -5,7 +5,7 @@ import { Box} from "@mui/system";
 import { Typography } from "@mui/material";
 
 const Main = (propsDataCurrent) => {
-  console.log(propsDataCurrent.dataCurrent.dt);
+  // console.log(propsDataCurrent.dataCurrent.dt);
 
   return (
     <div>

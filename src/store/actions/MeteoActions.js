@@ -8,9 +8,7 @@ import axios from "axios";
  * ******************** */
 // import variables stockée dans un fichier qui centralise toutes les variables du projet (ActionTypes)
 //  dont on a besoin dans ce fichier action)
-import { GET_APIMETEO_ALL_DATA, GET_APIMETEO_CURRENT_DATA } from "./ActionTypes";
-
-
+import { GET_APIMETEO_ALL_DATA, GET_APIMETEO_CURRENT_DATA, GET_COUNTRY_DATA } from "./ActionTypes";
 /*
  * Actions
  * ******* */
@@ -50,3 +48,26 @@ export const getMeteoAll = (lat, long) => {
   };
 };
 
+// Get Country Json
+export const geCountryAll = () => {
+
+  return (dispatch) => { 
+
+  const arrayCountry= []
+    var data = require('../../assets/db/city.list.min.json');
+    for (let i = 0; i < data.length; i++) {
+      arrayCountry.push({
+        "id" :i,
+        "name" : data[i].name}) 
+  
+        // arrayCountry.push(data[i].name)   
+    }
+  
+    console.log("ville" ,arrayCountry)
+    dispatch({ type: GET_COUNTRY_DATA, payload: arrayCountry });
+
+    // console.log("ville" ,Object.assign({}, arrayCountry))
+    // dispatch({ type: GET_COUNTRY_DATA, payload: Object.assign({}, arrayCountry) });
+
+  };
+};

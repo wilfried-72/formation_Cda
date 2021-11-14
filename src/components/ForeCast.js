@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 
 const ForeCast = (propsDaily) => {
   const { dateFormatMeteo } = require("../util/index");
-  console.log(propsDaily.daily.dt);
+  //console.log(propsDaily.daily.dt);
 
   return (
     <Card
