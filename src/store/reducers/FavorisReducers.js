@@ -7,14 +7,14 @@ import * as Actions from "../actions/ActionTypes";
  * Selector
  * ******** */
 const initialState = {
-  flash: '',
+  flash: "",
   favoritesData: [],
   favorites: {
-    "nom": "",
-    "date": "",
-    "IsSelected": "",
-    "id": 1
-  }
+    nom: "",
+    date: "",
+    IsSelected: "",
+    id: 1,
+  },
 };
 
 /*
@@ -27,9 +27,7 @@ export function FavorisReducers(state = initialState, action) {
       return { ...state, favoritesData: action.payload };
     case Actions.ADD_FAVORIS_DATA:
       return { ...state, flash: action.payload };
-    case Actions.ADD_FAVORIS_DATA:
-      return { ...state, flash: action.payload };
-    case EDIT_FAVORIS_DATA:
+    case Actions.EDIT_FAVORIS_DATA:
       // ... veut dire qu'on recupère tous le state
       return state.map((put) => {
         //   ici on recherche l'objet par l'id du post
@@ -42,9 +40,9 @@ export function FavorisReducers(state = initialState, action) {
           //sinon on renvoi le post d'origine
         } else return put;
       });
-    case DELETE_FAVORIS_DATA:
+    case Actions.DELETE_FAVORIS_DATA:
       //   ici on remap tout le post sauf celui avec lid à supprimer
-      return state.filter((del => del.id !== action.payload.delId))
+      return state.filter((del) => del.id !== action.payload.delId);
     default:
       return state;
   }
