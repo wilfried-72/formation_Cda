@@ -1,4 +1,4 @@
-# Titre: react-build-webpack
+# Titre: react-build-electron
 `Projet react realisé par liwza basé sur tuto from Scratch`
 
 # Procedure pour utiliser React App
