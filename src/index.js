@@ -1,32 +1,48 @@
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import App from "./App";
+import * as serviceWorker from './serviceWorker';
+// import "./styles/index.scss";
+import { store } from "./store";
+import { StyledEngineProvider } from "@mui/material/styles";
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { getWeather, getWeathersWeek } from "./store/actions/WeatherActions";
+
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme/index";
 import "./assets/scss/index.scss";
 
-import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux'
+// Cats
+// import { getImages } from "./store/actions/ImagesActions";
 
-import App from './App'
+store.dispatch(getWeather("Paris"));
+store.dispatch(getWeathersWeek("Paris"));
+// Cats
+// store.dispatch(getImages());
 
-import { store } from "./store";
-
-import reportWebVitals from './tests/reportWebVitals';
-
-// Actions (*)
-import { getNews } from './store/actions/ArticleActions'
-import { getCountries } from "./store/actions/CountriesActions";
-
-store.dispatch(getNews())
-store.dispatch(getCountries())
-
-render(
-  <Provider store={ store }>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+const renderReactDom = () => {
+ReactDOM.render(
+  <Provider store={store}>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </ThemeProvider>
+    </StyledEngineProvider>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+if (window.cordova) {
+  document.addEventListener('deviceready', () => {
+    renderReactDom();
+  }, false);
+} else {
+  renderReactDom();
+}
+
+serviceWorker.unregister();

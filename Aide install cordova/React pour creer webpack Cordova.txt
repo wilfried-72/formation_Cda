@@ -1,0 +1,648 @@
+1°) Pre install cordova
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+https://medium.com/@pshubham/using-react-with-cordova-f235de698cc3
+
+Apache cordova est un cadre de développement d'applications mobiles qui peut être utilisé pour créer des applications mobiles hybrides (multiplates-formes) à l'aide de technologies Web telles que HTML, Javascript. Une base de code unique peut être créée pour s'exécuter sur différentes plates-formes comme Android, iOS et Windows.
+
+React est une bibliothèque javascript utilisée pour créer des interfaces utilisateur et gagne en popularité. Il vous permet de créer des composants réutilisables et avec état.
+
+- Creer architecture de base cordova
+cordova create tuto react build cordova
+
+- Prendre le projet React à builder
+- Fusionner les deux projets (Important)
+
+-------------------------------------------
+Copiez le src / et publics / répertoires de reactproject dossier cordovaReactProject dossier
+Les fichiers package.json doivent également être fusionnés.
+Copiez les clés
+"eslintConfig"
+"scripts",
+"dependencies"
+"browserList" 
+"devDependencies"
+"homepage": "./"
+
+de reactproject/package.json vers cordovaReactProject/package.json. Finalement, cordovaReactProject/package.json devrait ressembler à au minimun :
+
+********************************
+{
+    "name": "helloworld",
+    "displayName": "HelloCordova",
+    "version": "1.0.0",
+    "description": "A sample Apache Cordova application that responds to the deviceready event.",
+    "main": "index.js",
+    "dependencies": {
+        "react": "^16.9.0",
+        "react-dom": "^16.9.0",
+        "react-scripts": "3.0.1"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "keywords": [
+        "ecosystem:cordova"
+    ],
+    "author": "Apache Cordova Team",
+    "license": "Apache-2.0"
+}
+***************************************
+- Architecture de base apres la fusion
+-------------------------------------
+├── config.xml 
+├── hooks 
+│ └── README.md 
+├── package.json --> (fusionné à partir du projet
+ react ) ├── plates-formes 
+├── plugins 
+├── public ---> ( copié à partir du projet
+ React ) │ ├── favicon.ico 
+│ ├── index.html 
+│ └── manifest.json 
+├── src --> Répertoire de travail principal (copié à partir du projet
+ React ) │ ├── App. css 
+│ ├── app.js 
+│ ├── App.test.js 
+│ ├── index.css 
+│ ├── index.js 
+│ ├── Fouillez 
+│ └── serviceWorker.js 
+└── www - ------> Répertoire de construction 
+    ├── css 
+    │ └── index.css 
+    ├── img 
+    │ └── logo.png
+    index.html 
+    └── js 
+        └── index.js
+------------------------------------------
+- Faire npm install pour installer les pmodules npm
+- Faire npm start pour voir si la fusion s'est bien passée
+-------------------------------------------
+
+- Mise à jour des balises méta dans notre page de modèle principale
+---------------------------------------------
+Ajoutez les balises <meta> suivantes dans le <head> de public/index.html.
+
+---
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-highlight" content="no">
+<meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+---
+---------------------------------------------
+
+- Chargement de cordova.js dans notre page de modèle principale :
+---------------------------------------------
+- Ajoutez la balise de script suivante juste avant </body> dans public/index.html
+
+---
+<script src="cordova.js" type="text/javascript"></script>
+---
+---------------------------------------------
+
+- Configuration de React Dom à charger après l'événement de prêt de l'appareil de cordova :
+---------------------------------------------
+Étant donné que le fichier scr/index.js est le point d'entrée, nous devons le modifier un peu pour que le dom de réaction se charge après que l' événement " deviceready " ait été déclenché par cordova.
+
+Les modifications doivent ressemblées à ceci dans le fonctionnement
+----
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+
+const renderReactDom = () => {
+  ReactDOM.render(<App />, document.getElementById('root'));
+};
+
+if (window.cordova) {
+  document.addEventListener('deviceready', () => {
+    renderReactDom();
+  }, false);
+} else {
+  renderReactDom();
+}
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
+---
+---------------------------------------------
+
+- Creer le fichier serviceWorker.js dans src avec les ce code:
+***************************************************
+// This optional code is used to register a service worker.
+// register() is not called by default.
+
+// This lets the app load faster on subsequent visits in production, and gives
+// it offline capabilities. However, it also means that developers (and users)
+// will only see deployed updates on subsequent visits to a page, after all the
+// existing tabs open on the page have been closed, since previously cached
+// resources are updated in the background.
+
+// To learn more about the benefits of this model and instructions on how to
+// opt-in, read https://bit.ly/CRA-PWA
+
+const isLocalhost = Boolean(
+  window.location.hostname === "localhost" ||
+    // [::1] is the IPv6 localhost address.
+    window.location.hostname === "[::1]" ||
+    // 127.0.0.1/8 is considered localhost for IPv4.
+    window.location.hostname.match(
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+    )
+);
+
+export function register(config) {
+  if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
+    // The URL constructor is available in all browsers that support SW.
+    const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
+    if (publicUrl.origin !== window.location.origin) {
+      // Our service worker won't work if PUBLIC_URL is on a different origin
+      // from what our page is served on. This might happen if a CDN is used to
+      // serve assets; see https://github.com/facebook/create-react-app/issues/2374
+      return;
+    }
+
+    window.addEventListener("load", () => {
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+
+      if (isLocalhost) {
+        // This is running on localhost. Let's check if a service worker still exists or not.
+        checkValidServiceWorker(swUrl, config);
+
+        // Add some additional logging to localhost, pointing developers to the
+        // service worker/PWA documentation.
+        navigator.serviceWorker.ready.then(() => {
+          console.log(
+            "This web app is being served cache-first by a service " +
+              "worker. To learn more, visit https://bit.ly/CRA-PWA"
+          );
+        });
+      } else {
+        // Is not localhost. Just register service worker
+        registerValidSW(swUrl, config);
+      }
+    });
+  }
+}
+
+function registerValidSW(swUrl, config) {
+  navigator.serviceWorker
+    .register(swUrl)
+    .then((registration) => {
+      registration.onupdatefound = () => {
+        const installingWorker = registration.installing;
+        if (installingWorker == null) {
+          return;
+        }
+        installingWorker.onstatechange = () => {
+          if (installingWorker.state === "installed") {
+            if (navigator.serviceWorker.controller) {
+              // At this point, the updated precached content has been fetched,
+              // but the previous service worker will still serve the older
+              // content until all client tabs are closed.
+              console.log(
+                "New content is available and will be used when all " +
+                  "tabs for this page are closed. See https://bit.ly/CRA-PWA."
+              );
+
+              // Execute callback
+              if (config && config.onUpdate) {
+                config.onUpdate(registration);
+              }
+            } else {
+              // At this point, everything has been precached.
+              // It's the perfect time to display a
+              // "Content is cached for offline use." message.
+              console.log("Content is cached for offline use.");
+
+              // Execute callback
+              if (config && config.onSuccess) {
+                config.onSuccess(registration);
+              }
+            }
+          }
+        };
+      };
+    })
+    .catch((error) => {
+      console.error("Error during service worker registration:", error);
+    });
+}
+
+function checkValidServiceWorker(swUrl, config) {
+  // Check if the service worker can be found. If it can't reload the page.
+  fetch(swUrl)
+    .then((response) => {
+      // Ensure service worker exists, and that we really are getting a JS file.
+      const contentType = response.headers.get("content-type");
+      if (
+        response.status === 404 ||
+        (contentType != null && contentType.indexOf("javascript") === -1)
+      ) {
+        // No service worker found. Probably a different app. Reload the page.
+        navigator.serviceWorker.ready.then((registration) => {
+          registration.unregister().then(() => {
+            window.location.reload();
+          });
+        });
+      } else {
+        // Service worker found. Proceed as normal.
+        registerValidSW(swUrl, config);
+      }
+    })
+    .catch(() => {
+      console.log(
+        "No internet connection found. App is running in offline mode."
+      );
+    });
+}
+
+export function unregister() {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.unregister();
+    });
+  }
+}
+********************************************************
+- Faire npm start pour voir si fonctionne
+
+Mise à jour de la « page d'accueil » dans package.json :
+Le fichier index.html dans le dossier de construction a des chemins absolus pour le chargement des actifs (fichiers js, css) . Étant donné que le fichier HTML va s'exécuter directement dans la vue Web plutôt que d'être hébergé sur un serveur, les actifs doivent être accessibles à l'aide d'un chemin relatif.
+
+La solution pour cela consiste à ajouter une propriété "page d'accueil" dans package.json comme indiqué ci-dessous . L'ajout de ceci garantirait que les actifs sont récupérés à l'aide d'un chemin relatif dans le fichier index.html.
+
+- Modifier le fichier package .json comme ceci;
+**************************************************
+"homepage": "./"
+*************************************************
+
+ Le code du répertoire src/ écrit en JSX et ES6 ne peut pas être utilisé directement car il se trouve dans l'application cordova . Donc, fondamentalement, la version de production de notre application React doit être utilisée pour créer l'application Cordova.
+1°) develloppement en react (ecrit react composant dans src folder
+2°) production build (bundled and transpiled code avec webpack et babel )
+3°) build cordova app (use the react build comme source pour faire le cordava build)
+
+Nous pouvons facilement automatiser ce processus en utilisant des crochets cordova ( plus d'informations ). Puisque nous devons exécuter la commande react build avant que cordova build ne soit préparé , nous pouvons utiliser le hook before_prepare cordova .
+
+Les hooks doivent être définis dans le fichier config.xml du projet.
+- Ajoutez l'entrée ci-dessous sous <widget> 
+
+************************************
+<hook type="before_prepare" src="scripts/prebuild.js" />
+************************************
+ 
+ceci exécuterait les scripts / prebuild.js avant le démarrage de construction cordova. Notre fichier prebuild.js contiendrait un mécanisme pour exécuter la compilation de réaction.
+L'avantage de la configuration d'un hook est que vous n'avez pas à vous soucier des constructions spécifiques à la plate-forme lors de la configuration de vos tâches, par exemple rm -rf, cp ne fonctionnera pas sous Windows, un dossier est accessible en tant que /foo/bar sous Linux et C : \\foo\\bar dans Windows
+
+- Creation d'un dossier script à la racine du projet et d'un fichier prebuild.js à l'interieur puis copier ceci
+---------------------------------------------------------------------
+const path = require('path');
+const { exec } = require('child_process');
+const fs = require('fs');
+const rimraf = require('rimraf');
+
+function renameOutputFolder(buildFolderPath, outputFolderPath) {
+    return new Promise((resolve, reject) => {
+        fs.rename(buildFolderPath, outputFolderPath, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve('Successfully built!');
+            }
+        });
+    });
+}
+
+function execPostReactBuild(buildFolderPath, outputFolderPath) {
+    return new Promise((resolve, reject) => {
+        if (fs.existsSync(buildFolderPath)) {
+            if (fs.existsSync(outputFolderPath)) {
+                rimraf(outputFolderPath, (err) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    renameOutputFolder(buildFolderPath, outputFolderPath)
+                        .then(val => resolve(val))
+                        .catch(e => reject(e));
+                });
+            } else {
+                renameOutputFolder(buildFolderPath, outputFolderPath)
+                    .then(val => resolve(val))
+                    .catch(e => reject(e));
+            }
+        } else {
+            reject(new Error('build folder does not exist'));
+        }
+    });
+}
+
+module.exports = () => {
+    const projectPath = path.resolve(process.cwd(), './node_modules/.bin/react-scripts');
+    return new Promise((resolve, reject) => {
+        exec(`${projectPath} build`,
+            (error) => {
+                if (error) {
+                    console.error(error);
+                    reject(error);
+                    return;
+                }
+                execPostReactBuild(path.resolve(__dirname, '../build/'), path.join(__dirname, '../www/'))
+                    .then((s) => {
+                        console.log(s);
+                        resolve(s);
+                    })
+                    .catch((e) => {
+                        console.error(e);
+                        reject(e);
+                    });
+            });
+    });
+};
+---------------------------------------------------------------------------------------------------------------
+ - Installer module rimraf
+npm i rimraf --save
+
+-*-*-*--*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+Si vous prévoyez d'utiliser react-router-dom pour le routage dans l'application, utilisez <HashRouter> au lieu de <BrowserRouter>
+-*-*-*--*-*-*-*-*-*-*--*-*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+Lors de l'accès à l'objet cordova, accédez-y à l'aide de l'objet window, sinon la génération de réaction lèverait une exception de variable indéfinie. Pour .eg si vous utilisez le plug- in de notification local ( lien https://github.com/katzer/cordova-plugin-local-notifications ), au lieu de l'utiliser comme :
+
+cordova.plugins.notification.local.schedule({ 
+    .... 
+});
+
+accédez-y à l'aide de l'objet window :
+window.cordova.plugins.notification.local.schedule({ 
+    .... 
+});
+
+example du git sur ce tuto
+https://github.com/pshubham95/cordova-react-example 
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+2°)Install cordova
+
+- Install cordova en global
+sudo npm install -g cordova
+
+Install Java default
+sudo apt-get update
+
+java -version
+-----------------------------------------
+openjdk version "11.0.11" 2021-04-20
+OpenJDK Runtime Environment (build 11.0.11+9-Ubuntu-0ubuntu2.20.04)
+OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.20.04, mixed mode, sharing)
+-----------------------------------------
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+3°) Installer Android studio ( Ceci à faire qu'un fois par pc )
+
+3-1°) Installation des dépendenses pour le mode dev pour tester notre APK
+
+- Install JDK et jre version 1.8
+sudo apt-get install default-jdk
+sudo apt-get install default-jre
+
+- Install version JDK 8 
+sudo apt install openjdk-8-jdk openjdk-8-jre
+
+- Configurer java8
+sudo update-alternatives --config java
+
+* 0  /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1111      mode automatique
+  1  /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1111      mode manuel
+  2  /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      mode manuel
+****choisir java-8 avec le numero puis entrer
+
+sudo update-alternatives --config javac
+  Sélection   Chemin                                        Priorité  État
+------------------------------------------------------------
+* 0 /usr/lib/jvm/java-11-openjdk-amd64/bin/javac   1111      mode automatique
+  1 /usr/lib/jvm/java-11-openjdk-amd64/bin/javac   1111      mode manuel
+  2 /usr/lib/jvm/java-8-openjdk-amd64/bin/javac    1081      mode manuel
+****choisir java-8 avec le numero puis entrer
+
+sudo update-java-alternatives -l
+*****resultat***********
+java-1.11.0-openjdk-amd64      1111       /usr/lib/jvm/java-1.11.0-openjdk-amd64
+java-1.8.0-openjdk-amd64       1081       /usr/lib/jvm/java-1.8.0-openjdk-amd64
+**************************
+
+3-2°) Installation Android studio
+
+**************   IMPORTANT         ********************************************
+*** Telecharge la version linux sur le site https://developer.android.com/studio
+**** Installer le dossier android-studio dans dossier /opt ( ouvrir le dossier opt en administrateur
+**************   IMPORTANT         ********************************************
+
+***Installer biblioteque si environement 64bit
+sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+
+- Aller à la racine du PC
+cd opt/android-studio/bin
+ll 
+=> verifier les droit du fichier studio.sh
+r read
+w write
+X executable
+
+- Mettre les droit executable si ce n'est vrai
+chmod +x studio.sh
+
+- lancer Android studio
+./studio.sh
+**************   IMPORTANT         ********************************************
+Ne pas faire de mise à jour si demandée
+**************   IMPORTANT         ********************************************
+
+**** Creer un alias dans le fichier bashrc pour eviter d'aller dans ce repertoire ci-dessus et pouvoir lancere le programme de n'importe où
+
+sudo vim ~/.bashrc 
+*********************************************************
+***Mettre ceci dans le fichier bashrc en haut
+# Android SDK
+alias android='/opt/android-studio/bin/studio.sh'
+*********************************************************
+echap:wq
+
+- Relancer le bashrc
+source ~/.bashrc 
+
+3-3°) Configurer Android studio
+- Ouvrir Android et finir l'installation 
+
+configure (moreAction) => SDK manager
+- Installer ces API
+		Sv2	1	Not installed
+		31	1	Installed
+		30	3	Not installed
+		29	5	Not installed
+		28	6	Not installed
+		27	3	Not installed
+		26	2	Not installed
+		25	3	Not installed
+		24	2	Not installed
+		23	3	Not installed
+		22	2	Not installed
+		21	2	Not installed
+		19	4	Not installed
+		18	3	Not installed
+		17	3	Not installed
+		16	5	Not installed
+		15	5	Not installed
+		14	4	Not installed
+
+- Creer mobile virtuel sur Android studio
+configure (moreAction) => Avd manager => create virtual device => phone > galaxy nesus => importer tout les versions de os de cet appareil selectionné
+
+--------------------------------------------
+Si Avd ne s'ouvre pas alors faire :
+sudo chmod -R 777 /dev/kvm
+-------------------------------------------
+
+3-4°) Installation de gradle (constructeur librairie pour builder appli mobile avec java)
+
+sudo apt install gradle
+***verifier si gradle est bien dans le dossier /usr/share/gradle/bin
+
+3-5°) Modification du .bashrc pour configuration gradel JDK et Androis SDK
+
+****ouvrir fichier bashrc
+sudo vim ~/.bashrc 
+*********************************************************
+Mettre ceci dans le fichier bashrc en haut
+export ANDROID_HOME="$HOME/Android/Sdk"
+export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/emulator
+*****************************************************************************
+echap:wq
+
+- Relancer le bashrc
+source ~/.bashrc 
+
+3-6°) Utiliser Android avec Cordova
+
+- Aller dans repo react avec cordova
+cordova platform add android
+cordova platform add ios (pour Apple)
+*******************
+Attention: faire build react avant
+***********************
+
+=> Ouvrir Android studio
+cordova emulate android
+cordova emulate ios (pour Apple)
+
+si erreur
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+* What went wrong:
+Could not determine the dependencies of task ':app:compileDebugJavaWithJavac'.
+> Installed Build Tools revision 31.0.0 is corrupted. Remove and install again using the SDK Manager.
+
+Alors faire ceci:
+cd home
+cd "User" 
+cd Android/Sdk/build-tools/31.0.0/lib
+cp d8 dx
+cd lib
+cp d8.jar dx.jar
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+cordova run android
+cordova run ios (pour Apple)
+
+- Recupération apk debug
+/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+C'est le apk pour faire tourner l'appli sur le tel en mode dev
+
+cordova build android --release
+
+- Recupération apk builder
+/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
+C'est le apk defenitive
+
+- Signer apk
+mettre le fichier sign-apk.sh dans le repertoire platforms/android/app/build/outputs/apk/release/
+
+- Rendre ce fichier executable
+sudo chmod +x sign-apk.sh
+
+- Lancer le fichier
+./sign-apk.sh app-release
+
+- Repondre aux questions ci-dessous
+----------------------------------------------
+Entrez le mot de passe du fichier de clés : 
+Entrez le mot de passe du fichier de clés : 
+-----------------------------------------------
+Ensuite pas d'obligation de répondre aux questions suivantes
+-----------------------------------------------
+Quels sont vos nom et prénom ?
+  [Unknown]:  
+Quel est le nom de votre unité organisationnelle ?
+  [Unknown]:  
+Quel est le nom de votre entreprise ?
+  [Unknown]:  
+Quel est le nom de votre ville de résidence ?
+  [Unknown]:  
+Quel est le nom de votre état ou province ?
+  [Unknown]:  
+Quel est le code pays à deux lettres pour cette unité ?
+  [Unknown]: 
+-----------------------------------------------
+Et répondre à cette dernière question par un O
+-----------------------------------------------
+Est-ce CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, ST=Unknown, C=Unknown ?
+  [non]:  
+-----------------------------------------------
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+si defaut voir ce qui est ecrit dans le terminal
+Erreur sur PC arinfo ==> ouvrir android studio => configure => sdk mananger ==> sdk platform et installer android 10.0 API level 29
+
+************* ou *****************
+***Ouvrir android studio avec terminal
+***configure ==> AVD manager ==> phone ==> galaxy nesus ==> next ==> finih et double clic sur l'appareil pour lancer emulateur
+
+***si probleme  de permission, fermer android studio et faire dans terminal
+sudo chmod -R 777 /dev/kvm
+
+**************   IMPORTANT         ********************************************
+Si fichier le dossier kvm est absent faire : 
+Redémarrez votre ordinateur et accédez au BIOS du système 
+(appuyez sur Suppr ou F2 (il est différent dans chaque système, mon système est la touche Suppr))
+Dans l'onglet Avancé, choisissez, configuration du processeur
+et technologie de virtualisation Intel activée,
+ enregistrez enfin les modifications et redémarrez votre ordinateur.
+**************   IMPORTANT         ********************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+

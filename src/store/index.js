@@ -1,29 +1,30 @@
-
 /*
- * React
- * ***** */
+ * Import config store by react
+ * **************************** */ 
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 
 /*
  * Reducers
- * ******** */
-import { ArticleReducer } from "./reducers/ArticleReducers";
-import { CountriesReducer } from "./reducers/CountriesReducers";
-import { WeatherReducer } from "./reducers/WeatherReducers";
+ * ******** */ 
+import {WeatherReducer} from "./reducers/WeatherReducer";
+import {FavoriteReducer} from "./reducers/FavoriteReducer";
+// Cats
+import { ImagesReducer } from "./reducers/ImagesReducers";
 
 /*
- * All (Root) Reducers
- * ******************* */
+ * Centralisation du store (root reducers)
+ * *************************************** */ 
 const rootReducer = combineReducers({
-  article: ArticleReducer,
-  countries: CountriesReducer,
-  weather: WeatherReducer
+    weather: WeatherReducer,
+    favorite: FavoriteReducer,
+    // Cats
+    images:ImagesReducer
 });
 
 /*
- * Store export
- * ************ */
-export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk))); // Dev
-// export const store = createStore(rootReducer); // Prod
+ * Export du store
+ * *************** */ 
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk))); //Dev
+// export const store = createStore(rootReducer); //prod
