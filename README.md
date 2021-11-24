@@ -1,8 +1,8 @@
-# Titre: react-news-Flag-weather
+# react-redux-api-nodeJs
 `Projet react realisé par liwza basé sur tuto from Scratch`
 
 # Procedure pour utiliser React App
-## React, redux, db Json et Api weather
+## React, redux, api NodeJs
 `voir readme main`
 
 ### Version nodeJs:
