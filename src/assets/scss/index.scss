@@ -1,7 +1,11 @@
-@import "./settings";
-@import "./components/navigation";
+@import "./_settings";
 @import "./components/logo";
-@import "./components/card";
-@import "./components/countries";
-@import "./pages/news";
-@import "./components/article";
+@import "./components/meteoDay";
+@import "./components/meteoWeek";
+@import "./components/cardMeteoWeek";
+@import "./components/navbar";
+@import "./components/inputTown";
+@import "./components/weatherMap";
+// Cats
+@import "./components/cards";
+@import "./pages/article";

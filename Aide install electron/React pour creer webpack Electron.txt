@@ -1,0 +1,303 @@
+---------------------------------------------------------------------
+1°)Build avec react
+A°) Build par Défaut avec react
+- Builder appli react (aller dans repertoire de l'appli)
+npm run build
+npm install -g serve
+serve -s build
+=> ici le build se fait dans le dossier build
+
+B°) Build avec react maisz dans un dossier DIST
+- Installer module npm cross-env
+(Exécuter des scripts qui définissent et utilisent des variables d'environnement sur toutes les plateformes)
+npm i cross-env -D
+
+- Rajouter ce script avec ce que utilise react lors d'une création d'une pallication dans package.json
+  "scripts": {
+    "w:build": "cross-env BUILD_PATH='./dist/webapp' react-scripts build"
+  }
+
+- Rajouter "homepage": "./" dans le fichier package.json pour qu'index.html du buid puisse fonctionner
+
+=> voir dans dossier "soft/Webpack and babel" pour configurer manuellement webpack et babel sur projet react sans le créer avec npx create.....
+
+
+2°) Electron
+https://mmazzarolo.com/blog/2021-08-12-building-an-electron-application-using-create-react-app/
+
+- Install extetion "npm support for VS Code" sur visula code pour voir les script dans package.json
+- Install electron en dev
+npm i electron electronmon electron-builder wait-on concurrently -D
+
+++++++++++++++++++++++++++++++++++
+explication:
+concurrently: exécuter plusieurs commandes simultanément. Nous l'utiliserons pour exécuter à la fois le processus Electron et l'application React en mode montre.
+cross-env: exécutez des scripts qui définissent et utilisent des variables d'environnement sur différentes plates-formes. Nous l'utiliserons pour rendre nos scripts compatibles avec les systèmes d'exploitation Unix et Windows.
+electron: Le framework de base pour la création de l'application.
+electron-builder: Une solution complète pour emballer et créer une application Electron prête à être distribuée pour macOS, Windows et Linux.
+electronmon: Comme nodemon, mais pour le processus Electron. Permet de regarder et de recharger notre application Electron.
+wait-on: Utilitaire pour attendre les fichiers, les ports, les sockets, etc. Nous l'utiliserons pour attendre que l'application React soit construite avant d'ouvrir l'application Electron (pendant le développement).
+++++++++++++++++++++++++++++++++
+
+npm i electron-is-dev -D
+
+- Creer un fichier electron.js dans le dossier public et copier ceci
+************************************
+// Module to control the application lifecycle and the native browser window.
+const { app, BrowserWindow, protocol } = require("electron");
+const path = require("path");
+const url = require("url");
+
+// Create the native browser window.
+function createWindow() {
+  const mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    // Set the path of an additional "preload" script that can be used to
+    // communicate between node-land and browser-land.
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
+  });
+
+  // In production, set the initial browser path to the local bundle generated
+  // by the Create React App build process.
+  // In development, set it to localhost to allow live/hot-reloading.
+  const appURL = app.isPackaged
+    ? url.format({
+        pathname: path.join(__dirname, "index.html"),
+        protocol: "file:",
+        slashes: true,
+      })
+    : "http://localhost:3000";
+  mainWindow.loadURL(appURL);
+
+  // Automatically open Chrome's DevTools in development mode.
+  if (!app.isPackaged) {
+    mainWindow.webContents.openDevTools();
+  }
+}
+
+// Setup a local proxy to adjust the paths of requested files when loading
+// them from the local production bundle (e.g.: local fonts, etc...).
+function setupLocalFilesNormalizerProxy() {
+  protocol.registerHttpProtocol(
+    "file",
+    (request, callback) => {
+      const url = request.url.substr(8);
+      callback({ path: path.normalize(`${__dirname}/${url}`) });
+    },
+    (error) => {
+      if (error) console.error("Failed to register protocol");
+    }
+  );
+}
+
+// This method will be called when Electron has finished its initialization and
+// is ready to create the browser windows.
+// Some APIs can only be used after this event occurs.
+app.whenReady().then(() => {
+  createWindow();
+  setupLocalFilesNormalizerProxy();
+
+  app.on("activate", function () {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
+});
+
+// Quit when all windows are closed, except on macOS.
+// There, it's common for applications and their menu bar to stay active until
+// the user quits  explicitly with Cmd + Q.
+app.on("window-all-closed", function () {
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
+
+// If your app has no need to navigate or only needs to navigate to known pages,
+// it is a good idea to limit navigation outright to that known scope,
+// disallowing any other kinds of navigation.
+const allowedNavigationDestinations = "https://my-electron-app.com";
+app.on("web-contents-created", (event, contents) => {
+  contents.on("will-navigate", (event, navigationUrl) => {
+    const parsedUrl = new URL(navigationUrl);
+
+    if (!allowedNavigationDestinations.includes(parsedUrl.origin)) {
+      event.preventDefault();
+    }
+  });
+});
+
+// In this file you can include the rest of your app's specific main process
+// code. You can also put them in separate files and require them here.
+**********************************
+
+- Creer un fichier preload.js dans le dossier public et copier ceci
+***********************************
+// All of the Node.js APIs are available in the preload process.
+// It has the same sandbox as a Chrome extension.
+const { contextBridge } = require("electron");
+
+// As an example, here we use the exposeInMainWorld API to expose the browsers
+// and node versions to the main window.
+// They'll be accessible at "window.versions".
+process.once("loaded", () => {
+  contextBridge.exposeInMainWorld("versions", process.versions);
+});
+
+Le code ci-dessus accède à l' process.versionsobjet Node.js et l'expose dans l'application React, le rendant accessible à l'adresse window.versions.
+**********************************
+
+
+- Mettre à jour la homepagepropriété
+Nous devons appliquer Create React App pour déduire un chemin racine relatif dans le fichier HTML généré. C'est une exigence car nous n'allons pas servir le fichier HTML ; il sera chargé directement par Electron.
+
+- Ajouter dans package.json 
+********************************
+"homepage": "./",
+"main": "./public/electron.js",
+********************************
+
+- Mettez à jour la browserslistsection de package.json
+pour ne prendre en charge que la dernière version d'Electron. Cela garantit que Webpack/Babel n'ajoutera que les polyfills et les fonctionnalités dont nous avons strictement besoin, en maintenant la taille du paquet au minimum.
+
+- Ajouter dans package.json 
+********************************
+"browserslist": {
+   "production": [
+      "last 1 electron version",
+   ],
+   "development": [
+      "last 1 electron version",
+  ]
+ },
+********************************
+
+- Définir une politique de sécurité du contenu
+Une politique de sécurité du contenu (CSP) est une couche supplémentaire de protection contre les attaques de scripts intersites et les attaques par injection de données. Je recommande donc fortement de l'activer en <project-root>/public/index.html.
+Le CSP suivant permettra à Electron d'exécuter uniquement des scripts en ligne (ceux injectés dans le fichier HTML par le processus de génération de Create React App).
+
+copier dans le fichier public/index.html ceci:
+**********************************
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+**********************************
+
+- Définir le script de démarrage/développement
+Dans votre package.json, définissez un script pour créer l'application Create React et démarrez le processus Electron en mode veille :
+
+- Ajouter dans package.json 
+*********************************
+"scripts": {
+  "e:start": "concurrently -k \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electronmon .\"",
+},
+*********************************
+
+concurrently -k invoque les commandes suivantes en parallèle et les tue toutes les deux lorsque le processus est arrêté.
+cross-env BROWSER=none yarn startdéfinit les BROWSER=nonevariables d'environnement (en utilisant cross-envpour la compatibilité Windows) pour désactiver l'ouverture automatique du navigateur et appelle le startscript, qui exécute la build Create React App en mode veille.
+wait-on http://localhost:3000 && electronmon .attend que le serveur de développement de l'application Create React serve l'application sur localhost:3000, puis appelle electronmon .pour démarrer l'ajout d'Electron en mode veille.
+Vous pouvez maintenant exécuter yarn electron:startvotre application React dans Electron au lieu de la fenêtre du navigateur.
+
+- Emballez l'application Electron pour le build
+Enfin, nous devons apporter quelques modifications mineures à la configuration de Create React App pour générer des distribuables spécifiques à la plate-forme afin que notre application puisse être installée. Nous utiliserons Electron-builder, une solution basée sur la configuration pour emballer et créer des applications Electron prêtes à être distribuées pour macOS, Windows et Linux.
+
+- Définir l'auteur et la description de l'application
+Electron-builder déduit quelques informations par défaut requises pour regrouper le fichier distribuable (nom de l'application, auteur et description) à partir du package.json, alors spécifions-les :
+
+- Ajouter dans package.json 
+*********************************
+  "author": {
+    "name": "liwza",
+    "email": "liwza@liwza.com",
+    "url": "https://liwza.com"
+  },
+ "description": "Meteo Group",
+*********************************
+
+- Définir la configuration de construction
+Ajoutons une configuration minimale d' Electron-builder à l' package.jsonaide de la buildclé au niveau supérieur :
+
+- Ajouter dans package.json 
+*********************************
+  "build": {
+    "appId": "com.electron.myapp",
+    "productName": "Meteo CDA",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"],
+    "directories": {
+      "buildResources": "public",
+      "output": "/dist/electron"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "deb"
+    }
+  },
+********************************
+appId: ID d'application utilisé pour identifier l'application dans macOS (en tant que CFBundleIdentifier ) et Windows (en tant qu'ID de modèle d'utilisateur d'application ).
+productName: le nom de l'application, comme indiqué dans l'exécutable de l'application.
+directories.buildResources: chemin du répertoire racine qui contient les ressources non compressées dans l'application.
+files: global des fichiers supplémentaires (en dehors de directories.buildResources) requis par l'application pour s'exécuter.
+mac, win, linux: Configurations spécifiques à la plate-forme.
+
+- Ajouter une icône d'application
+Par défaut, Electron-builder recherchera une icône d'application dans <root-project>/build/icon.png- vous devriez donc pouvoir continuer tant que vous la mettez dans le publicrépertoire (le processus de création de l'application Create React se chargera de la déplacer vers le buildrépertoire).
+voir https://www.electron.build/icons.html
+
+- Ajouter les scripts d'empaquetage
+Enfin, pour faire du package Electron-builder notre application, nous pouvons ajouter un script de package pour chaque plate-forme de destination dans le package.json:
+- Ajouter dans package.json 
+*********************************
+ "scripts": {
+   "electron:start": "concurrently -k \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electronmon .\"",
+   "e:dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
+   "electron": "wait-on tcp:3000 && electron .",
+    "e:mac": "npm run build && electron-builder -m -c.extraMetadata.main=build/electron.js",
+    "e:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js",
+    "e:linux": "npm run build && electron-builder -l -c.extraMetadata.main=build/electron.js"
+ },
+********************************
+
+Ces commandes construiront un bundle de production d'applications React et le conditionneront dans des distribuables pour Windows, macOS et Linux respectivement. Par défaut, les distribuables seront au format NSIS (Windows), dmg (macOS) et deb (Linux).
+
+Les fichiers distribuables générés seront placés dans <project-root>/dist, alors assurez-vous d'ajouter ce répertoire à .gitignore:
+
+- finalisation:
+Vous pouvez maintenant exécuter yarn electron:startpour démarrer votre flux de développement et:
+npm run e:"..."
+
+Attention pour builder sous windows il faut installer:
+sudo apt install wine sur linux
+
+Attention pour Mac
+Installer le module npm suivant:
+npm install dmg-builder -D
+
+- Changer dans package.json 
+**************************************
+   "mac": {
+      "target": "dmg"  => par "mas" et remettre dmg par défaut
+    },
+**************************************
+
+---------------------------------------------------------------------------------------
+Architecture dans quasar
+.
+└── src-electron/
+    ├── icons/                 # Icons of your app for all platforms
+    |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
+    |   ├── icon.ico              # Icon file for win32 (Windows) platform
+    |   └── linux-512x512.png     # Icon file for Linux platform (when using electron-builder)
+    └── main-process/          # Main thread source code
+        ├── electron-main.dev.js  # Main thread code while developing; read below
+        └── electron-main.js      # Main thread code for production
+---------------------------------------------------------------------------------------

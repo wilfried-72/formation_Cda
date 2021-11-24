@@ -1,0 +1,99 @@
+.bg-dark text-white, .ville, .temperature, .weatherDescr, .sunrise, .sunset, .weatherDescrSun {
+    text-align: center;
+    color: white;
+}
+.ville {
+  font-size: 1.5rem;
+}
+.temperature {
+  font-size: 5rem;
+}
+.weatherDescr {
+  font-size: 1rem;
+}
+.card-img-top {
+  width: 65px;
+  display: inline-block;
+}
+.weatherDescrSun {
+  display: inline-block;
+}
+.imageSun {
+  vertical-align: middle;
+  display: inline-block;
+}
+.sunriseCard, .sunsetCard {
+  width: 135px;
+  display: inline-block;
+}
+.sunriseSunset {
+  text-align: center;
+}
+.CountryIndice Button {
+  border: none;
+  background: none;
+  margin: auto;
+  display: block;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+}
+.CountryIndice img {
+  width: 25px;
+}
+$lists: (
+    "Clouds": "nuageux",
+    "Clear": "soleil",
+    "Drizzle": "crachin",
+    "Rain": "pluie",
+    "Snow": "snow",
+    "Thunderstorm": "orage",
+    "Tornado": "orage",
+    "Squall": "weather",
+    "Ash": "weather",
+    "Dust": "weather",
+    "Sand": "weather",
+    "Fog": "cloudy",
+    "Haze": "weather",
+    "Smoke": "cloudy",
+    "Mist": "cloudy",
+    "night": "night"
+    );
+@each $name, $value in $lists {
+  ##{$name} {
+    background-image: url(../../images/#{$value}.svg);
+    background-repeat: no-repeat;
+    background-size: 230px;
+    background-position: top;
+    padding-top: 190px;
+  }
+}
+@each $name, $value in $lists {
+  .#{$name} {
+    background-image: url(../../images/#{$value}.svg);
+    background-repeat: no-repeat;
+    background-size: 50px;
+    width: 55px;
+    height: 55px;
+    margin: auto;
+  }
+}
+#country {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  text-align: center;
+  margin: -145px 120px;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  position: absolute;
+}
+.css-bhp9pd-MuiPaper-root-MuiCard-root, .css-1ri6ub7-MuiPaper-root-MuiCard-root {
+  background: none;
+  box-shadow: none;
+  margin: auto;
+  display: inline-block;
+  position: relative;
+}

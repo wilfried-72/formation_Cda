@@ -1,13 +1,15 @@
-/*
- * Action types { ... }
- * ******************** */
-
-// News
-export const GET_NEWS_DATA = "GET_NEWS_DATA";
-export const ADD_NEWS_DATA = "ADD_NEWS_DATA";
-
-// Countries
-export const GET_COUNTRIES_DATA = "GET_COUNTRIES_DATA";
+/* 
+ * Action types {...}
+ * ****************** */
 
 // Weather
-export const GET_WEATHER_DATA = "GET_WEATHER_DATA"
+export const GET_WEATHER_DATA = "GET_WEATHER_DATA";
+export const GET_WEATHERSWEEK_DATA = "GET_WEATHERSWEEK_DATA";
+export const GET_COUNTRY_DATA = "GET_COUNTRY_DATA";
+export const POST_COUNTRY_DATA = "POST_COUNTRY_DATA";
+
+// Cats
+export const GET_IMAGES_DATA = 'GET_IMAGES_DATA'
+
+//update wil
+export const GET_APIMETEO_ALL_DATA = "GET_APIMETEO_ALL_DATA";
