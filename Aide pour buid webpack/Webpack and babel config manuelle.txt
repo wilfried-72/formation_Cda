@@ -1,0 +1,135 @@
+------------------------------------------------------------------
+- Installer Webpack en dev (pour preparer le build)
+npm i  webpack-cli --save-dev
+npm i webpack -D
+npm i webpack-dev-server -D
+
+//html
+npm i html-webpack-plugin -D
+//css
+npm i mini-css-extract-plugin -D
+
+//URL 
+npm i url-loader -D
+
+// image svg
+npm i @svgr/webpack -D
+
+-------------------------------------------------------------------------------------------
+- Creer fichier webpack.config.js à la racine du projet et copier ceci:
+------------------------------------
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+module.exports = {
+  entry: "./src/index.js",
+  output: {
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist/webPack"),
+  },
+  // pour le develloppement
+  devServer: {
+    port: 3000,
+    watchContentBase: true,
+    contentBase: './dist/webapp'
+  },
+  resolve: {
+    extensions: [".js", ".jsx", ".scss"],
+  },
+  module: {
+    // ici on defenie les regles
+    rules: [
+      {
+        // tester les fichiers js et jsx
+        test: /\.(js|jsx)$/,
+        // exclu tous le fichier dans node modules
+        exclude: /node_modules/,
+        // utiliser le module babel loader
+        loader: "babel-loader",
+      },
+      {
+        //test les fichiers .svg
+        test: /\.svg$/,
+        use: ["@svgr/webpack", "url-loader"],
+      },
+      {
+        //test les fichiers .css ou sass ou scss
+        test: /\.(css|sass|scss)$/,
+        // // on utilise les modules style-loader et css-loader avec new method
+        use: [
+          {
+            loader: "style-loader",
+          },
+          {
+            loader: "css-loader",
+          },
+          {
+            loader: "sass-loader",
+          },
+        ],
+        //test les fichiers .css
+        // test: /\.css$/,
+        // on utilise les modules style-loader et css-loader
+        // use: ["style-loader", "css-loader"],
+
+        //test les fichiers .css
+        // test: /\.scss$/,
+        // // on utilise les modules style-loader et css-loader
+        // use: ["style-loader", "css-loader", "sass-loader"],
+      },
+    ],
+  },
+  // ici le pluging permet de recuperer l'index.html, manifest et favicon dans dossier public
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./public/index.html",
+      manifest: "./public/manifest.json",
+      favicon: "./public/favicon.ico",
+    }),
+    new MiniCssExtractPlugin(),
+  ],
+};
+----------------------------------------
+entry c'est index.js
+output => dist/webPack ( pour creer le buil pour web application et non dossier build comme fais avec react par défaut 
+---------------------------------------------------------------------------------------
+
+
+- Installer babel (permet lire le javascript sur tous les navigateur)
+npm i @babel/core @babel/preset-env @babel/preset-react -D
+npm i babel-loader -D
+npm i css-loader style-loader -D
+
+---------------------------------------------------------------------------------------
+- Creer fichier .babelrc à la racine du projet et copier ceci:
+------------------------------------------
+{
+    //  ici on prepare babel pour utiliser les modules ci dessous (environement et react)
+    "presets": ["@babel/preset-env", "@babel/preset-react"]
+}
+------------------------------------------
+---------------------------------------------------------------------------------------
+
+- Rajouter ce script avec ce que utilise react lors d'une création d'une pallication dans package.json
+  "scripts": {
+    "webpack-start": "webpack --mode development",
+    "webpack-build": "webpack --mode production",
+    "webpack-dev": "webpack-dev-server"
+  },
+
+- Verifier si tous les modules npm sont installé dans le package.json
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-react": "^7.16.0",
+    "@svgr/webpack": "^5.5.0",
+    "css-loader": "^6.5.1",
+    "electron": "^16.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.4.4",
+    "react-router-dom": "^5.3.0",
+    "style-loader": "^3.3.1",
+    "url-loader": "^4.1.1",
+    "webpack-cli": "^4.9.1"
+  }
