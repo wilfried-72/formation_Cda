@@ -3,12 +3,20 @@
 # All branch
 - master (react_tuto_wil)
 - react-Redux (tuto)
+- react-meteo (tuto)
+- react-news-Flag-weather
+- react-build-webpack
+- react-build-electron
+- react-build-cordovo
+- api-nodeJs
+- react-redux-api-nodeJs
 
+# Ici branch Master 
+# Titre: React_tuto_wil
+`Projets react realisés par liwza basé sur tuto:
+From Scratch`
 
-# Projets realisés par liwza basé sur tuto:
-From Scratch
-
-# Procedure pour use React.................
+# Procedure pour utiliser React
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
