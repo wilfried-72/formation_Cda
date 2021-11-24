@@ -41,7 +41,7 @@ const SelectCountry = () => {
       value={value}
       onChange={(e, newValue) => handleChangeSelect(e, newValue)}
       sx={{ width: 300 }}
-      options={countryData}
+      options={countries}
       autoHighlight
       freeSolo
       getOptionLabel={(option) => (option.name ? option.name : "")}
@@ -51,6 +51,7 @@ const SelectCountry = () => {
       renderOption={(props, option) => (
         <Box component="li" {...props}>
           {option.name}
+          {option.id}
         </Box>
       )}
       renderInput={(params) => (

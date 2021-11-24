@@ -35,7 +35,7 @@ const Current = () => {
               component="img"
               sx={{ width: 250 }}
               // image={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
-              image={`../images/iconMeteo/${data.weather[0].icon}.svg`}
+              image={`../src/assets/images/iconMeteo/${data.weather[0].icon}.svg`}
               alt={`${data.weather[0].icon}`}
             />
 

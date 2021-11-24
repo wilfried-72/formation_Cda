@@ -16,7 +16,7 @@ const App = () => {
 
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename = "/">
       <NavBar />
       <Routes>
         <Route path="/" exact element={<Home />} />
