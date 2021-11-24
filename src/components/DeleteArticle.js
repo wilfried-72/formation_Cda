@@ -1,25 +1,23 @@
-import axios from 'axios';
-import React from 'react';
+import React from "react";
+import axios from "axios";
 
- // ici on supprime par le props id
-const DeleteArticle = ({id}) => {
-   
-    const handleDelete = () => {
-        //console.log ("del")
-        axios.delete(process.env.REACT_APP_SERVEUR +"/"+ id)
-        //ici on rafraichi la page mais il faudrait utiliser les stores data avec """redux"""
-        window.location.reload()
-    }
+const DeleteArticle = ({ id }) => {
+  const handleDelete = () => {
+    axios.delete("http://localhost:3003/articles/" + id);
+    window.location.reload();
+  };
 
-    return (
-        <div>
-            <button onClick={() => {
-if (window.confirm('Voulez vous supprimer cet article')) {
-    handleDelete()
-}
-            }}>Del</button>
-        </div>
-    );
+  return (
+    <button
+      onClick={() => {
+        if (window.confirm("Voulez-vous supprimer cet article ?")) {
+          handleDelete();
+        }
+      }}
+    >
+      Supprimer
+    </button>
+  );
 };
 
 export default DeleteArticle;

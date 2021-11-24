@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Card from "./Card";
 
 const Countries = () => {
-  const [data, setData] = useState([]);
   const [rangeValue, setRangeValue] = useState(40);
   const [selectedRadio, setSelectedRadio] = useState("");
   const radios = ["Africa", "America", "Asia", "Europe", "Oceania"];
 
-  useEffect(() => {
-    axios
-    .get('https://restcountries.com/v3.1/all?fields=name,population,region,capital,flag')
-      .then((res) => {
-        setData(res.data);
-      });
-  }, []);
+  const countries = useSelector(state => state.countries.data)
 
   return (
     <div className="countries">
@@ -49,12 +42,12 @@ const Countries = () => {
         )}
       </div>
       <ul className="countries-list">
-        {data
+        {(countries.length > 0) && countries
           .filter((country) => country.region.includes(selectedRadio))
           .sort((a, b) => b.population - a.population)
           .filter((country, index) => index < rangeValue)
-          .map((country,index) => (
-            <Card country={country} key={index}  />
+          .map((country) => (
+            <Card country={country} key={country.name.common} />
           ))}
       </ul>
     </div>
@@ -62,7 +55,3 @@ const Countries = () => {
 };
 
 export default Countries;
-
-
-
-

@@ -1,27 +1,32 @@
+import "./assets/scss/index.scss";
+
 import React from 'react';
-import ReactDOM from 'react-dom';
-// mis en commentaire car pas use dans tuto
-// import './index.css';
-import App from './App';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux'
 
-//importation du style avec sass
-import "./styles/index.scss"
+import App from './App'
 
-// mis en commentaire car pas use dans tuto
-// import reportWebVitals from './reportWebVitals';
+import { store } from "./store";
 
-//rend l'application au niveau de l'id root dans fichier index.html
-ReactDOM.render(
-  <React.StrictMode>
-  {/* en dessou on appelle le composant app.js */}
-    <App />
-  </React.StrictMode>,
+import reportWebVitals from './tests/reportWebVitals';
+
+// Actions (*)
+import { getNews } from './store/actions/ArticleActions'
+import { getCountries } from "./store/actions/CountriesActions";
+
+store.dispatch(getNews())
+store.dispatch(getCountries())
+
+render(
+  <Provider store={ store }>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-
-// mis en commentaire car pas use dans tuto
-// reportWebVitals();
+reportWebVitals();
