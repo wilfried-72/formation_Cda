@@ -8,47 +8,60 @@ const Posts = require("../database/model/posts");
 // GetAll
 exports.getAll = async (req, res) => {
   // sans populate
-  const posts = await Posts.find().sort("-createdDateIso");
+  const posts = await Posts.find().sort("-createdDateTimestamp");
 
-  //  avec populate
-  // const posts = await Posts.find().populate("user").sort("-createdDateIso");
-
-   console.log("Get posts","dbPosts", posts );
+  //  console.log("Get posts","dbPosts", posts );
   // res.json({ message: "Voici les " + posts.length + " post(s)", posts });
-  res.json({posts});
+  res.json({ posts });
 };
 
 exports.getOne = async (req, res) => {
   // sans populate
   const posts = await Posts.findById(req.params.id);
-
-  //  avec populate
-  // const posts = await Posts.findById(req.params.id).populate("user");
-
   // console.log("Get one posts", req.query, req.params.id);
   res.json({ message: "Voici le post demandé", posts });
 };
 
 // Create
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   const b = req.body;
   // console.log("Create post", "req.body", req.body);
   if (b.title && b.author) {
     // On définit la construction de notre article
+
+    // Si front utilisé pour rafraichir les datas apres un del one
+    // ************************************
     const posts = new Posts({
       ...req.body,
       //   title: b.title,
       //   author: b.author,
       //   content: b.content,
       //   likes: b.likes
+      createdDateTimestamp: new Date().getTime(),
     });
 
     // Et on sauvegarde nos modifications
     posts.save((err) => {
-      if (err) {
-        throw err;
-      }
-      res.json({ message: "Le post a été crée avec success !", data: posts });
+      if (err) throw err;
+    });
+    // ************************************
+
+    // Si back utilisé pour rafraichir les datas apres un del one
+    // ************************************
+    // const posts = await Posts.create({
+    //   ...req.body,
+    //   createdDateTimestamp: new Date().getTime(),
+    // });
+    // const dataGet = await Posts.find({}).sort("-createdDateTimestamp");
+    // console.log(dataGet)
+    // ****************************
+    res.json({
+      message: "Le post a été crée avec success !",
+      data: posts,
+      // Si back utilisé pour rafraichir les datas apres un del one
+      // ************************************
+      // dataGet,
+      // ************************************
     });
   } else res.json({ message: "Error, le post n'a pas été fait!" });
 };
@@ -68,14 +81,27 @@ exports.editOne = (req, res) => {
 };
 
 // Delete One
-exports.deleteOne = (req, res) => {
+exports.deleteOne = async (req, res) => {
   //   console.log("delete", req.query, req.params.id);
 
   Posts.findByIdAndDelete(req.params.id, (err) => {
     if (err) throw err;
-    res.json({
-      message: "Ce post a bien été supprimé !",
-    });
+  });
+
+  // Si back utilisé pour rafraichir les datas apres un del one
+  // ************************************
+  // pour rafraichier les data apres un del pour le front
+  // const dataDel = await Posts.find({}).sort("-createdDateTimestamp");
+  // ************************************
+
+  res.json({
+    message: "Ce post a bien été supprimé !",
+
+    // Si back utilisé pour rafraichir les datas apres un del one
+    // ************************************
+    // pour rafraichier les data apres un del pour le front
+    // dataDel,
+    // ************************************
   });
 };
 

@@ -11,12 +11,15 @@ export const isEmpty = (value) => {
 // Date Format
 export const datePaser = (date) => {
   // const dateUnix = new Date(date * 1000);
-  let newDate = (new Date().setTime(date - 86400000))
+  let newDate = (new Date().setTime(date))
   // console.log(newDate)
   let DateModif = new Date(newDate).toLocaleDateString("fr-FR", {
     year: "numeric",
     month: "long",
     day: "numeric",
+   hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
   });
 
   return DateModif ;

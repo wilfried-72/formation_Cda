@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { editPosts, deletePost, getPosts } from "../actions/post.action";
+import { editPosts, deletePost } from "../actions/post.action";
 import Like from "./Like";
 
 // import la fonction isEmpty dans le fichier utils.js
@@ -10,6 +10,8 @@ const Post = (props) => {
   const { post, index, userChoice } = props;
   const [editToggle, setEditToggle] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
+
+ 
   // const user = useSelector((state) => state.userReducer);
 
   // dispatch les action
@@ -23,7 +25,7 @@ const Post = (props) => {
       author: userChoice.pseudo,
       content: editContent,
       likes: post.likes,
-      id: post.id,
+      id: post._id,
     };
 
     dispatch(editPosts(postData));
@@ -32,9 +34,9 @@ const Post = (props) => {
 
   const handleDel = (e) => {
     if (window.confirm("Voulez vous supprimer cet article")) {
-      dispatch(deletePost(post.id));
+      dispatch(deletePost(post._id));
     }
-    dispatch(getPosts());
+    // dispatch(getPosts());
   };
 
   // console.log("userChoice " ,userChoice.pseudo)
@@ -76,11 +78,11 @@ const Post = (props) => {
 
       <div className="author">
         <h5>{post.author}</h5>
+        <Like post={post} />
       </div>
 
-      <div className="author">
+      <div className="date">
         <h5>{datePaser(post.createdDateTimestamp)}</h5>
-        <Like post={post} />
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ export default function postReducer(state = initialState, action) {
       // ... veut dire qu'on recupère tous le state
       return state.map((post) => {
         //   ici on recherche l'objet par l'id du post
-        if (post.id === action.payload.id) {
+        if (post._id === action.payload.id) {
           //  si trouvé, on recupere tout les data du post et le contenu modifié
           return {
             ...post,
@@ -28,11 +28,11 @@ export default function postReducer(state = initialState, action) {
       });
     case DELETE_POST:
       //   ici on remap tout le post sauf celui avec lid à supprimer
-      return state.filter((post) => post.id !== action.payload.postId)
+      return state.filter((post) => post._id !== action.payload.postId )
 
     case ADD_LIKE:
       return state.map((post) => {
-        if (post.id === action.payload.id) {
+        if (post._id === action.payload._id) {
           return {
             ...post,
             likes: action.payload.likes,

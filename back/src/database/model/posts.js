@@ -28,8 +28,7 @@ const PostsSchema = new Schema({
   },
 
   createdDateTimestamp: {
-    type: String,
-    default: new Date().getTime(),
+    type: String
   },
 
   updatedDateTimestamp: {
