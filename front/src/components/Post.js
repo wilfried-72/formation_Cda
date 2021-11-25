@@ -21,7 +21,7 @@ const Post = (props) => {
 
     //important il faut remettre tout les champs de la data autrement il serait ecraser par un champ vide
     const postData = {
-      title: post.title,
+      title: "post.title",
       author: userChoice.pseudo,
       content: editContent,
       likes: post.likes,
@@ -82,8 +82,10 @@ const Post = (props) => {
       </div>
 
       <div className="date">
-        <h5>{datePaser(post.createdDateTimestamp)}</h5>
+        <h5> {!post.updatedDateTimestamp ? "Posté le " + datePaser(post.createdDateTimestamp) : "Posté le " + datePaser(post.createdDateTimestamp) + " (Modifié le " + datePaser(post.updatedDateTimestamp) +")"} 
+         </h5>
       </div>
+        
     </div>
   );
 };
