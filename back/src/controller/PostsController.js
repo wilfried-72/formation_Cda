@@ -66,19 +66,42 @@ exports.create = async (req, res) => {
   } else res.json({ message: "Error, le post n'a pas été fait!" });
 };
 
+// Si front utilisé pour rafraichir les datas apres un del one
+// ************************************
 //update ONe
-exports.editOne = (req, res) => {
-  // console.log("Edit posts", req.query, req.params.id);
+// exports.editOne = (req, res) => {
+//   // console.log("Edit posts", req.query, req.params.id);
 
-  Posts.findByIdAndUpdate(
-    req.params.id,
-    { ...req.body, updatedDateTimestamp: new Date().getTime() },
-    (err, data) => {
-      if (err) throw err;
-      res.json({ message: "Modification du Post avec success !", data });
-    }
-  );
+//   Posts.findByIdAndUpdate(
+//     req.params.id,
+//     { ...req.body, updatedDateTimestamp: new Date().getTime() },
+//     (err, data) => {
+//       if (err) throw err;
+//       res.json({ message: "Modification du Post avec success !", data });
+//     }
+//   );
+// };
+// ************************************
+
+// Si back utilisé pour rafraichir les datas apres un del one
+// ************************************
+//update ONe
+exports.editOne = async (req, res) => {
+  // console.log("Edit posts", req.query, req.params.id);
+  const data = await Posts.findByIdAndUpdate(req.params.id, {
+    ...req.body,
+    updatedDateTimestamp: new Date().getTime(),
+  });
+
+  let dataEdit = await Posts.find({ _id: req.params.id });
+  console.log("Find", dataEdit);
+  res.json({
+    message: "Modification du Post avec success !",
+    data,
+    dataEdit,
+  });
 };
+// ************************************
 
 // Delete One
 exports.deleteOne = async (req, res) => {

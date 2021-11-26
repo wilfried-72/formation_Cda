@@ -66,8 +66,9 @@ export const editPosts = (data) => {
       .then((res) => {
         dispatch({
           type: EDIT_POST,
-          payload: { ...data.posts },
+          payload: res.data.dataEdit ,
         });
+        // console.log("data.posts Edit " ,res.data.dataEdit)
         // si ne fonctionne pas alors console err
       })
       .catch((err) => console.log(err));

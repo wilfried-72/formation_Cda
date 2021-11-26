@@ -11,7 +11,7 @@ const Post = (props) => {
   const [editToggle, setEditToggle] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
 
- 
+//  console.log("userChoice post " ,userChoice.pseudo)
   // const user = useSelector((state) => state.userReducer);
 
   // dispatch les action
@@ -21,7 +21,7 @@ const Post = (props) => {
 
     //important il faut remettre tout les champs de la data autrement il serait ecraser par un champ vide
     const postData = {
-      title: "post.title",
+      title: post.title,
       author: userChoice.pseudo,
       content: editContent,
       likes: post.likes,
@@ -78,7 +78,7 @@ const Post = (props) => {
 
       <div className="author">
         <h5>{post.author}</h5>
-        <Like post={post} />
+        <Like post={post} userChoice={userChoice} />
       </div>
 
       <div className="date">

@@ -15,13 +15,17 @@ export default function postReducer(state = initialState, action) {
       return [action.payload, ...state];
     case EDIT_POST:
       // ... veut dire qu'on recupère tous le state
+      // console.log("action.payload", action.payload[0]._id)
       return state.map((post) => {
+        // console.log("post._id ", post._id )
+        // console.log("action.payload._id ", action.payload._id )
         //   ici on recherche l'objet par l'id du post
-        if (post._id === action.payload._id) {
+        if (post._id === action.payload[0]._id) {
+     
           //  si trouvé, on recupere tout les data du post et le contenu modifié
           return {
             ...post,
-            content: action.payload.content,
+            content: action.payload[0].content,
           };
           //sinon on renvoi le post d'origine
         } else return post;

@@ -22,16 +22,18 @@ const App = () => {
 
   function handleChangeSelect(e) {
     // console.log("Selected!!", e.target.value);
-    if (e.target.value.length > 0) setUser(users.find((userFind) => userFind.pseudo === e.target.value));  }
-
-  // console.log("edituser ",edituser)
+    if (e.target.value.length > 0)
+      if (e.target.value === "all") setUser("");
+      else
+        setUser(users.find((userFind) => userFind.pseudo === e.target.value));
+  }
 
   return (
     <div>
       <div>
         <h2>Utilisateur</h2>
         <select onChange={(e) => handleChangeSelect(e)}>
-        <option value="">Choisir</option>
+          <option value="all">All</option>
           {select.map((select) => {
             return (
               <option value={select.pseudo} key={select._id}>
@@ -41,14 +43,33 @@ const App = () => {
           })}
         </select>
       </div>
-      <PostForm userChoice={edituser}/>
+      <PostForm userChoice={edituser} />
       <div className="content">
         <div className="post-container">
           {/* Le map s'effectue si post n'est pas vide via la fct isEmpty */}
           {!isEmpty(posts) &&
+            !edituser &&
             posts.map((post, index) => (
-              <Post post={post} index={index} key={index} userChoice={edituser}/>
+              <Post
+                post={post}
+                index={index}
+                key={index}
+                userChoice={edituser}
+              />
             ))}
+
+          {!isEmpty(posts) &&
+            edituser &&
+            posts
+              .filter((postFilter) => postFilter.author === edituser.pseudo)
+              .map((post, index) => (
+                <Post
+                  post={post}
+                  index={index}
+                  key={index}
+                  userChoice={edituser}
+                />
+              ))}
         </div>
         <User userChoice={edituser} />
       </div>
