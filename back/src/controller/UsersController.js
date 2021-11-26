@@ -52,7 +52,6 @@ exports.editOne = async (req, res) => {
   });
 
   const userEdit = await User.find({ _id: req.params.id });
-  console.log("user like", userEdit.likes);
   res.json({
     message: "Modification du user avec success !",
     user,

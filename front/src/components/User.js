@@ -1,10 +1,8 @@
-import React from "react";
+import React  from "react";
 
 const User = (props) => {
-  const { users, userChoice } = props
-  // console.log("props userChoice ", userChoice);
+  const {userChoice } = props
 
-  // console.log("component users ", users)
   // console.log("component userChoice ", userChoice)
 
   return (

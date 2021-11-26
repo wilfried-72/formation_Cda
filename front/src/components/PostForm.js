@@ -25,22 +25,11 @@ const PostForm = (props) => {
         author: userChoice.pseudo,
       };    
         dispatch(addPosts(data))
-    
-      //ici on envoit les data au store
-      // dispatch(await addPosts(data), getPosts())
-      // dispatch(addPosts(data))
         setTitle("");
         setContent("");
-        // dispatch(getPosts())
 
-      // ici le code sera effectué apres le await (via la fonction asynchrone)
-
-      // ici on recharge les data du store car nous avons un id qui a éte implémenté par notre basse de donnees
-      // dispatch(getPosts());
     }
   };
-
-  // dispatch(getPosts())
 
   return (
     <div>

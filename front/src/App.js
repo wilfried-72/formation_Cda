@@ -71,7 +71,7 @@ const App = () => {
                 />
               ))}
         </div>
-        <User users={users} userChoice={edituser} />
+        <User userChoice={edituser} />
       </div>
     </div>
   );
