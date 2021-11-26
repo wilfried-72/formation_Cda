@@ -35,23 +35,29 @@ exports.create = (req, res) => {
         throw err;
       }
 
-      res.json({ message: "L'utilisateur a été crée avec success !", data: user });
+      res.json({
+        message: "L'utilisateur a été crée avec success !",
+        data: user,
+      });
     });
   } else res.json({ message: "Error, l'utilisateur n'a pas été fait!" });
 };
 
 //update ONe
-exports.editOne = (req, res) => {
-  // console.log("Edit User", req.query, req.params.id);
+exports.editOne = async (req, res) => {
+  //  console.log("Edit User", req.query, req.params.id);
+  const user = await User.findByIdAndUpdate(req.params.id, {
+    ...req.body,
+    updatedDateTimestamp: new Date().getTime(),
+  });
 
-  User.findByIdAndUpdate(
-    req.params.id,
-    { ...req.body, updatedDateTimestamp: new Date().getTime() },
-    (err, data) => {
-      if (err) throw err;
-      res.json({ message: "Modification du user avec success !", data });
-    }
-  );
+  const userEdit = await User.find({ _id: req.params.id });
+  console.log("user like", userEdit.likes);
+  res.json({
+    message: "Modification du user avec success !",
+    user,
+    userEdit,
+  });
 };
 
 // Delete One

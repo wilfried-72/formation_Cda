@@ -23,19 +23,21 @@ export const getUser = () => {
     }
 }
 export const addUserLike = (data) => {
-    // console.log(data)
+    console.log("user action id ",data.id)
+    console.log("user action data ",data)
     return (dispatch) => {
         // ici on recupere les data dans la bases de données et on le tri par ordre decroissant via l'id
         // voir dans doc axios
         return axios({
             method: "put",
             url: `http://localhost:3003/api/users/${data.id}`,
-            data: { ...data.users}
+            data: { ...data}
         })
             .then((res) => {
+                // console.log("addUserLike ",res.data.userEdit)
                 dispatch({
                     type: ADD_USER_LIKE,
-                    payload: { ...data.users}
+                    payload: res.data.userEdit
                 })
                 // si ne fonctionne pas alors console err
             })

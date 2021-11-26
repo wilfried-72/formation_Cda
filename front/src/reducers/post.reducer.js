@@ -32,8 +32,7 @@ export default function postReducer(state = initialState, action) {
       });
     case DELETE_POST:
       //   ici on remap tout le post sauf celui avec lid à supprimer
-      return state.filter((post) => post._id !== action.payload.postId )
-
+      return state.filter((post) => post._id !== action.payload.postId );
     case ADD_LIKE:
       return state.map((post) => {
         if (post._id === action.payload._id) {

@@ -94,7 +94,7 @@ exports.editOne = async (req, res) => {
   });
 
   let dataEdit = await Posts.find({ _id: req.params.id });
-  console.log("Find", dataEdit);
+  // console.log("Find", dataEdit);
   res.json({
     message: "Modification du Post avec success !",
     data,

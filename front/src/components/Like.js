@@ -23,41 +23,36 @@ const Like = (props) => {
       id: post._id,
     };
 
-    // const userData = {
-    //   pseudo: userChoice.pseudo,
-    //   likes: ++userChoice.likes,
-    //   id: userChoice._id
-    // }
-
-    // const userDataNone = {
-    //   pseudo: post.author,
-    //   likes: userChoice.likes,
-    //   id: userChoice._id
-    // }
+    const userData = {
+      ages: userChoice.ages,
+      pseudo: userChoice.pseudo,
+      likes: parseInt(userChoice.likes) +1 ,
+      id: userChoice._id
+    }
 
     const userDataNone = {
+      ages : user.find((userFind) => userFind.pseudo === post.author).ages,
       pseudo: user.find((userFind) => userFind.pseudo === post.author).author,
-      likes: user.find((userFind) => userFind.pseudo === post.author).likes,
+      likes: 1,
       id: user.find((userFind) => userFind.pseudo === post.author)._id,
     };
 
-    if (post) {
-      console.log("post.author", post.author);
-      console.log("userChoice.pseudo", userChoice.pseudo);
-      console.log("user", user);
-      console.log(
-        "find id User ",
-        user.find((userFind) => userFind.pseudo === post.author)._id
-      );
-    }
-
+    // if (post) {
+    //   console.log("post.author", post.author);
+    //   console.log("userChoice.pseudo", userChoice.pseudo);
+    //   console.log("user", user);
+    //   console.log(
+    //     "find id User ",
+    //     user.find((userFind) => userFind.pseudo === post.author)._id
+    //   );
+    // }
 
     dispatch(addLike(postData));
-
+    // dispatch(addUserLike(userDataNone))
 
     if (post.author === userChoice.pseudo) {
       console.log("author correspond");
-      // dispatch(addUserLike(userData));
+      dispatch(addUserLike(userData));
 
     } else {
       console.log("author ne correspond pas");

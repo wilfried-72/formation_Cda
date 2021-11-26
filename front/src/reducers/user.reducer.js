@@ -12,8 +12,10 @@ export default function userReducer(state = initialState, action) {
             return action.payload
         case ADD_USER_LIKE:
             return state.map((user) => {
-                // console.log(user.id)
-                if (user.id === action.payload.id) {
+                console.log("user.id ",user.id)
+                console.log("action ",action.payload)
+
+                if (user.id === action.payload._id) {
                     return {
                         ...user,
                         likes: action.payload.likes,
