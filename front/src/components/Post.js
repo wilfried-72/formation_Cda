@@ -28,6 +28,7 @@ const Post = (props) => {
       id: post._id,
     };
 
+    // console.log(postData)
     dispatch(editPosts(postData));
     setEditToggle(false);
   };
