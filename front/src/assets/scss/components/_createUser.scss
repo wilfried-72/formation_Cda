@@ -1,0 +1,23 @@
+.createUser {
+
+    h2{
+        text-align: center;
+        margin-top: 30px;
+    }
+    .addUser {
+        display: flex;
+        justify-content: center;
+
+        form input {
+            margin-left: auto;
+            margin: 30px;
+            padding: 10px;
+            letter-spacing: 1px;
+        }
+
+        .formButton {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

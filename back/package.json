@@ -4,8 +4,8 @@
   "description": "Api rest with nodeJs",
   "main": "apirestnodejs.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node apirestnodejs.js",
+    "dev": "nodemon apirestnodejs.js"
   },
   "author": "liwza",
   "license": "ISC",

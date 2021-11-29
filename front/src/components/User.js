@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { store } from "../store"
 // import { editUsers } from "../store/actions/UserAction";
 
 const User = (props) => {
