@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addPosts} from "../actions/post.action";
+import { addPosts} from "../store/actions/PostAction";
+import { store } from "../store"
 
 const PostForm = (props) => {
   const { userChoice } = props;
@@ -11,7 +11,6 @@ const PostForm = (props) => {
   const [content, setContent] = useState("");
   //on va chercher les data user dans le store
   // const user = useSelector((state) => state.userReducer)
-  const dispatch = useDispatch();
 
   // ici la fonction est asynchrone
   const handleForm = async (e) => {
@@ -24,7 +23,7 @@ const PostForm = (props) => {
         content,
         author: userChoice.pseudo,
       };    
-        dispatch(addPosts(data))
+      store.dispatch(addPosts(data))
         setTitle("");
         setContent("");
 

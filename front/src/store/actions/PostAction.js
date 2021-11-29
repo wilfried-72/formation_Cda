@@ -1,11 +1,5 @@
 import axios from "axios";
-
-//En debut de fichier: table des matieres de toutes nos actions pour les reducer
-export const GET_POST = "GET_POST";
-export const ADD_POST = "ADD_POST";
-export const EDIT_POST = "EDIT_POST";
-export const DELETE_POST = "DELETE_POST";
-export const ADD_LIKE = "ADD_LIKE";
+import {ADD_LIKE, ADD_POST, DELETE_POST, EDIT_POST, GET_POST } from "./ActionTypes";
 
 export const getPosts = () => {
   return (dispatch) => {
@@ -85,19 +79,11 @@ export const deletePost = (postId) => {
       url: `http://localhost:3003/api/posts/${postId}`,
     })
       .then((res) => {
+        console.log('res delete id', res.data)
         dispatch({
-          type: DELETE_POST,
-          payload: { postId },
-        });
-
-        // Si back utilisé pour rafraichir les datas apres un del one
-        // ************************************
-        // dispatch({
-        //     type: GET_POST,
-        //     payload: res.data.dataDel,
-        //   });
-        // ************************************
-
+            type: DELETE_POST,
+            payload: {post: res.data.dataDel, message: res.data.message},
+          });
         // si ne fonctionne pas alors console err
       })
       .catch((err) => console.log(err));

@@ -107,24 +107,14 @@ exports.editOne = async (req, res) => {
 exports.deleteOne = async (req, res) => {
   //   console.log("delete", req.query, req.params.id);
 
-  Posts.findByIdAndDelete(req.params.id, (err) => {
-    if (err) throw err;
+  Posts.findByIdAndDelete(req.params.id, async (err) => {
+    if  (err) throw err;
   });
-
-  // Si back utilisé pour rafraichir les datas apres un del one
-  // ************************************
-  // pour rafraichier les data apres un del pour le front
-  // const dataDel = await Posts.find({}).sort("-createdDateTimestamp");
-  // ************************************
+  const dataDel = await Posts.find({}).sort("-createdDateTimestamp");
 
   res.json({
     message: "Ce post a bien été supprimé !",
-
-    // Si back utilisé pour rafraichir les datas apres un del one
-    // ************************************
-    // pour rafraichier les data apres un del pour le front
-    // dataDel,
-    // ************************************
+    dataDel,
   });
 };
 

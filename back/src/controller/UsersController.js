@@ -45,7 +45,7 @@ exports.create = (req, res) => {
 
 //update ONe
 exports.editOne = async (req, res) => {
-  //  console.log("Edit User", req.query, req.params.id);
+  //  console.log("Edit User", req.body, req.params.id);
   const user = await User.findByIdAndUpdate(req.params.id, {
     ...req.body,
     updatedDateTimestamp: new Date().getTime(),

@@ -1,19 +1,25 @@
-import { ADD_LIKE, ADD_POST, DELETE_POST, EDIT_POST, GET_POST } from "../actions/post.action";
+import * as Actions from "../actions/ActionTypes";
 
-const initialState = {};
+const initialState = {
+  post: [],
+  flash: ""
+};
 
 //se comporte comme un switch avec action
-export default function postReducer(state = initialState, action) {
+export default function PostReducer(state = initialState, action) {
   switch (action.type) {
     //ici pour le cas GET_POSTS on retourne action.payload
     // ici la les data du json
     // et par défaut la variable state qui est vide via initialSate si aucun case n'est trouvé
-    case GET_POST:
-      return action.payload;
-    case ADD_POST:
+    case Actions.GET_POST:
+      return {...state, post: action.payload};
+    case Actions.ADD_POST:
       // ... veut dire qu'on recupère tous le state
-      return [action.payload, ...state];
-    case EDIT_POST:
+      // 
+      // WARN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      // 
+      return {...state, post: action.payload };
+    case Actions.EDIT_POST:
       // ... veut dire qu'on recupère tous le state
       // console.log("action.payload", action.payload[0]._id)
       return state.map((post) => {
@@ -30,10 +36,13 @@ export default function postReducer(state = initialState, action) {
           //sinon on renvoi le post d'origine
         } else return post;
       });
-    case DELETE_POST:
+    case Actions.DELETE_POST:
+      // console.log("delpodt action")
       //   ici on remap tout le post sauf celui avec lid à supprimer
-      return state.filter((post) => post._id !== action.payload.postId );
-    case ADD_LIKE:
+      return { ...state, postReducer: action.payload.post, flash: action.payload.message };
+      // return state.filter((post) => post._id !== action.payload.postId );
+    
+    case Actions.ADD_LIKE:
       return state.map((post) => {
         if (post._id === action.payload._id) {
           return {

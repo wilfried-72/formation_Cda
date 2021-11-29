@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { store } from "../store"
+// import { editUsers } from "../store/actions/UserAction";
 
 const User = (props) => {
   const { userChoice } = props
-  console.log("userChoice", userChoice.pseudo)
+  // console.log("userChoice", userChoice.pseudo)
 
   const [editToggle, setEditToggle] = useState(false);
   const [editPseudo, setEditPseudo] = useState(userChoice.pseudo);
@@ -12,18 +13,17 @@ const User = (props) => {
   // setEditAge(userChoice.ages)
   // setEditPseudo(userChoice.pseudo)
 
-  console.log("editPseudo", editPseudo, userChoice.pseudo)
-  console.log("editAges", editAges, userChoice.ages)
+  // console.log("editPseudo", editPseudo, userChoice.pseudo)
+  // console.log("editAges", editAges, userChoice.ages)
 
   // console.log("component userChoice ", userChoice)
   const handleDel = (e) => {
     if (window.confirm("Voulez vous supprimer cet user")) {
       console.log("c'est supprimé")
-      // dispatch(deletePost(userChoice._id));
+      // store.dispatch(deletePost(userChoice._id));
     }
   };
 
-  const dispatch = useDispatch();
   const handleEditUser = (e) => {
     e.preventDefault();
 
@@ -35,7 +35,7 @@ const User = (props) => {
       id: userChoice._id,
     };
 
-    // dispatch(editPosts(userData));
+    // store.dispatch(editUsers(userData));
     console.log(userData)
     setEditToggle(false);
   };

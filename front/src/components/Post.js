@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { editPosts, deletePost } from "../actions/post.action";
+import { editPosts, deletePost } from "../store/actions/PostAction";
 import Like from "./Like";
+import { store } from "../store"
 
 // import la fonction isEmpty dans le fichier utils.js
 import { datePaser } from "./Utils";
@@ -15,7 +15,6 @@ const Post = (props) => {
   // const user = useSelector((state) => state.userReducer);
 
   // dispatch les action
-  const dispatch = useDispatch();
   const handleEdit = (e) => {
     e.preventDefault();
 
@@ -29,15 +28,14 @@ const Post = (props) => {
     };
 
     // console.log(postData)
-    dispatch(editPosts(postData));
+    store.dispatch(editPosts(postData));
     setEditToggle(false);
   };
 
   const handleDel = (e) => {
     if (window.confirm("Voulez vous supprimer cet article")) {
-      dispatch(deletePost(post._id));
+      store.dispatch(deletePost(post._id));
     }
-    // dispatch(getPosts());
   };
 
   // console.log("userChoice " ,userChoice.pseudo)

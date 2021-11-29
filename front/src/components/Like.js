@@ -1,7 +1,8 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addLike } from "../actions/post.action";
-import { addUserLike } from "../actions/user.action";
+import { useSelector } from "react-redux";
+import { addLike } from "../store/actions/PostAction";
+import { addUserLike } from "../store/actions/UserAction";
+import { store } from "../store"
 
 const Like = (props) => {
   // console.log("props " ,props)
@@ -12,8 +13,7 @@ const Like = (props) => {
 
   const user = useSelector((state) => state.userReducer);
   // console.log("user in like component", user)
-  const dispatch = useDispatch();
-
+ 
   const handleLike = () => {
 
     const postData = {
@@ -24,7 +24,7 @@ const Like = (props) => {
       id: post._id,
     };
     
-    dispatch(addLike(postData));
+    store.dispatch(addLike(postData));
 
     if (post.author === userChoice.pseudo) {
       const userData = {
@@ -35,7 +35,7 @@ const Like = (props) => {
       }
       // console.log("userData ", userData )
       // console.log("author correspond");
-      dispatch(addUserLike(userData));
+      store.dispatch(addUserLike(userData));
 
     }
     else {
@@ -49,7 +49,7 @@ const Like = (props) => {
 
       // console.log("userDataNone ", userDataNone )
       // console.log("author ne correspond pas");
-      dispatch(addUserLike(userDataNone));
+      store.dispatch(addUserLike(userDataNone));
     }
 
   }
