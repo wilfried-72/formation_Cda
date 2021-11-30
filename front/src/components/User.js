@@ -1,16 +1,20 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 // import { editUsers } from "../store/actions/UserAction";
 
-const User = (props) => {
-  const { userChoice } = props
-  // console.log("userChoice", userChoice.pseudo)
+const User = () => {
+  // const { userChoice } = props
+
+  // on recupere les data de notre store 
+  const userChoice = useSelector((state) => state.userReducer.choiceUser);
+  // console.log("state choiceUser component User", userChoice);
 
   const [editToggle, setEditToggle] = useState(false);
   const [editPseudo, setEditPseudo] = useState(userChoice.pseudo);
   const [editAges, setEditAge] = useState(userChoice.ages);
 
-  // setEditAge(userChoice.ages)
-  // setEditPseudo(userChoice.pseudo)
+  setEditAge(userChoice.ages)
+  setEditPseudo(userChoice.pseudo)
 
   // console.log("editPseudo", editPseudo, userChoice.pseudo)
   // console.log("editAges", editAges, userChoice.ages)
@@ -30,7 +34,7 @@ const User = (props) => {
     const userData = {
       pseudo: editPseudo,
       ages: editAges,
-      likes:userChoice.likes,
+      likes: userChoice.likes,
       id: userChoice._id,
     };
 
@@ -60,9 +64,9 @@ const User = (props) => {
               {editToggle ? (
                 <form onSubmit={(e) => handleEditUser(e)}>
                   <input
-                  type="text"
+                    type="text"
                     defaultValue={userChoice.pseudo}
-                    onChange={(e) => {setEditPseudo(e.target.value)}}
+                    onChange={(e) => { setEditPseudo(e.target.value) }}
                   />
                   <input
                     type="number"

@@ -5,13 +5,20 @@ import { store } from "../store"
 
 // import la fonction isEmpty dans le fichier utils.js
 import { datePaser } from "./Utils";
+import { useSelector } from "react-redux";
 
 const Post = (props) => {
-  const { post, index, userChoice } = props;
+  const { post, index} = props;
+
+  // on recupere les data de notre store 
+  const userChoice = useSelector((state) => state.userReducer.choiceUser);
+  // console.log("state choiceUser", userChoice);
+
+
   const [editToggle, setEditToggle] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
 
-//  console.log("userChoice post " ,userChoice.pseudo)
+  //  console.log("userChoice post " ,userChoice.pseudo)
   // const user = useSelector((state) => state.userReducer);
 
   // dispatch les action
@@ -43,7 +50,6 @@ const Post = (props) => {
 
   return (
     <div className="post">
-      {/* (user.length > 0) peut remplacer {!isEmpty(user[0]) */}
       {userChoice.pseudo === post.author && (
         <div>
           {/* ici setEditiongToggle prend l'inverse de editToggle */}
@@ -77,14 +83,14 @@ const Post = (props) => {
 
       <div className="author">
         <h5>{post.author}</h5>
-        <Like post={post} userChoice={userChoice} />
+        <Like post={post} />
       </div>
 
       <div className="date">
-        <h5> {!post.updatedDateTimestamp ? "Posté le " + datePaser(post.createdDateTimestamp) : "Posté le " + datePaser(post.createdDateTimestamp) + " (Modifié le " + datePaser(post.updatedDateTimestamp) +")"} 
-         </h5>
+        <h5> {!post.updatedDateTimestamp ? "Posté le " + datePaser(post.createdDateTimestamp) : "Posté le " + datePaser(post.createdDateTimestamp) + " (Modifié le " + datePaser(post.updatedDateTimestamp) + ")"}
+        </h5>
       </div>
-        
+
     </div>
   );
 };

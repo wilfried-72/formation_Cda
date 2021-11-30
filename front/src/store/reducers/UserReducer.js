@@ -1,6 +1,10 @@
 import * as Actions from "../actions/ActionTypes";
 
-const initialState = {};
+const initialState = {
+  users: [],
+  flash: "",
+  choiceUser: []
+};
 
 //se comporte comme un switch avec action
 export default function UserReducer(state = initialState, action) {
@@ -9,7 +13,7 @@ export default function UserReducer(state = initialState, action) {
     // ici la les data du json
     // et par défaut la variable state qui est vide via initialSate
     case Actions.GET_USERS:
-      return action.payload;
+      return { ...state, users: action.payload };
     case Actions.ADD_USER_LIKE:
       return state.map((user) => {
         // console.log("user.id ",user._id)
@@ -46,6 +50,9 @@ export default function UserReducer(state = initialState, action) {
           //sinon on renvoi le post d'origine
         } else return user;
       });
+      case Actions.CHOICE_USER:
+        return { ...state, choiceUser: action.payload };
+
     default:
       return state;
   }

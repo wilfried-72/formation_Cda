@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import { addPosts} from "../store/actions/PostAction";
+import { addPosts } from "../store/actions/PostAction";
 import { store } from "../store"
+import { useSelector } from "react-redux";
 
-const PostForm = (props) => {
-  const { userChoice } = props;
+const PostForm = () => {
 
-  // console.log("userChoice PostForm", userChoice);
+  // on recupere les data de notre store 
+  const userChoice = useSelector((state) => state.userReducer.choiceUser);
+  // console.log("state choiceUser component PostForm", userChoice);
 
+
+  // constante pour poster un nouveau article 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  //on va chercher les data user dans le store
-  // const user = useSelector((state) => state.userReducer)
 
-  // ici la fonction est asynchrone
+
+  // ici la fonction est asynchrone pour poster un nouveau article
   const handleForm = async (e) => {
     //empeche le formunliare d'etre submiter
     e.preventDefault();
@@ -22,17 +25,16 @@ const PostForm = (props) => {
         title,
         content,
         author: userChoice.pseudo,
-      };    
+      };
       store.dispatch(addPosts(data))
-        setTitle("");
-        setContent("");
+      setTitle("");
+      setContent("");
 
     }
   };
 
   return (
     <div>
-      {userChoice && (
         <div className="form-container">
           <form onSubmit={(e) => handleForm(e)}>
             <input
@@ -49,7 +51,6 @@ const PostForm = (props) => {
             <input type="submit" value="Envoyer" />
           </form>
         </div>
-      )}
     </div>
   );
 };

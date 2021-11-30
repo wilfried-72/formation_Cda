@@ -5,24 +5,21 @@ import User from "../components/User";
 import Post from "../components/Post";
 import Navigation from "../components/Navigation";
 
-
 const Articles = () => {
 
-    // on recupere les data de notre store au niveau du post reducer
-    const posts = useSelector((state) => state.postReducer.post);
+    // on recupere les data de notre store 
+    const posts = useSelector((state) => state.postReducer.posts);
     // console.log("state posts ", posts);
-    const users = useSelector((state) => state.userReducer);
-    // console.log("state user ", users);
+    const userChoice = useSelector((state) => state.userReducer.choiceUser);
+    // console.log("state choiceUser", userChoice);
 
     return (
         <div>
             <Navigation />
-
             <PostForm />
             <div className="content">
                 <div className="post-container">
-                    {/* Le map s'effectue si post n'est pas vide via la fct isEmpty */}
-                    {posts.length > 0 &&
+                    {posts.length > 0 && !userChoice.pseudo &&
                         posts.map((post, index) => (
                             <Post
                                 post={post}
@@ -33,7 +30,7 @@ const Articles = () => {
 
                     {posts.length > 0 &&
                         posts
-                            // .filter((postFilter) => postFilter.author === edituser.pseudo)
+                            .filter((postFilter) => postFilter.author === userChoice.pseudo)
                             .map((post, index) => (
                                 <Post
                                     post={post}
@@ -42,7 +39,7 @@ const Articles = () => {
                                 />
                             ))}
                 </div>
-                <User />
+                    {/* <User /> */}
             </div>
         </div>
     );

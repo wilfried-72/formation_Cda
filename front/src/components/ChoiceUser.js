@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
+import { store } from '../store';
+import { choiceUser } from '../store/actions/UserAction';
 
 const ChoiceUser = () => {
 
-    // on recupere les data de notre store au niveau du post reducer
-    // console.log("state posts ", posts);
-    const users = useSelector((state) => state.userReducer);
+    // on recupere les data de notre store 
+    const users = useSelector((state) => state.userReducer.users);
     // console.log("state user ", users);
 
-    const [edituser, setUser] = useState("");
-    const [editFormUser, setEditFormUser] = useState(false);
-   
-
-    // console.log(editFormUser)
-
+    // Fonction pour mapper le select en fonction du store users trié par ordre alphabétique sur pseudo
     const select = [];
     if (users.length > 0) {
         users.map((user) => select.push(user));
@@ -21,18 +17,20 @@ const ChoiceUser = () => {
             return a.pseudo - b.pseudo;
         });
     }
-
     // console.log(select);
 
+    // fonction qui recupere l'objet du user lors du choix du select
     function handleChangeUser(e) {
-        // console.log("Selected!!", e.target.value);
-
-        setEditFormUser(false);
-
+        // console.log("Selected!!", e.target.value);;
         if (e.target.value.length > 0)
-            if (e.target.value === "all") setUser("");
-            else
-                setUser(users.find((userFind) => userFind.pseudo === e.target.value));
+            if (e.target.value === "all") {
+                const dataChoiceUserEmpty = []
+                store.dispatch(choiceUser(dataChoiceUserEmpty));
+            }
+            else {
+                const dataChoiceUser = users.find((userFind) => userFind.pseudo === e.target.value);
+                store.dispatch(choiceUser(dataChoiceUser));
+            }
     }
 
     return (
