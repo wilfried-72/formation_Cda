@@ -1,8 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import ChoiceUser from "./ChoiceUser";
-import FourTop from "./FourTop";
-
 
 const Navigation = () => {
 
@@ -18,10 +15,6 @@ const Navigation = () => {
         <NavLink to="/NewUser">
       Créer utilisateur
         </NavLink>
-      </div>
-      <div className="underNav">
-        <ChoiceUser />
-        <FourTop />
       </div>
     </div>
   );

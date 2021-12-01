@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import PostForm from "../components/PostForm";
-import User from "../components/User";
 import Post from "../components/Post";
 import Navigation from "../components/Navigation";
+import User from "../components/User";
+import SelectUser from "../components/SelectUser";
+import FourTop from "../components/FourTop";
 
 const Articles = () => {
 
@@ -11,12 +13,22 @@ const Articles = () => {
     const posts = useSelector((state) => state.postReducer.posts);
     // console.log("state posts ", posts);
     const userChoice = useSelector((state) => state.userReducer.choiceUser);
-    // console.log("state choiceUser", userChoice);
+    console.log("state choiceUser", userChoice);
 
     return (
         <div>
             <Navigation />
-            <PostForm />
+            <div className="underNav">
+                <SelectUser />
+                <FourTop />
+            </div>
+
+            {userChoice.pseudo && (
+                <div>
+                    <PostForm />
+                </div>
+            )}
+
             <div className="content">
                 <div className="post-container">
                     {posts.length > 0 && !userChoice.pseudo &&
@@ -39,7 +51,11 @@ const Articles = () => {
                                 />
                             ))}
                 </div>
-                    {/* <User /> */}
+
+                {userChoice.pseudo &&
+                    <User />
+                }
+
             </div>
         </div>
     );

@@ -12,12 +12,11 @@ import { store } from "./store";
 
 // Actions (*)
 import { getPosts } from "./store/actions/PostAction";
-import {getUser} from "./store/actions/UserAction";
+import {choiceUser, getUser} from "./store/actions/UserAction";
 
 // ici on envoi getPosts des que le store est monté
 store.dispatch(getPosts())
 store.dispatch(getUser())
-
 
 ReactDOM.render(
 // implementation du store avec provider qui englobe toute l'application

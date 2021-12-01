@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { useSelector } from "react-redux";
-// import { editUsers } from "../store/actions/UserAction";
+
 
 const User = () => {
   // const { userChoice } = props
@@ -13,8 +13,7 @@ const User = () => {
   const [editPseudo, setEditPseudo] = useState(userChoice.pseudo);
   const [editAges, setEditAge] = useState(userChoice.ages);
 
-  setEditAge(userChoice.ages)
-  setEditPseudo(userChoice.pseudo)
+  // console.log(editPseudo);
 
   // console.log("editPseudo", editPseudo, userChoice.pseudo)
   // console.log("editAges", editAges, userChoice.ages)
@@ -30,7 +29,11 @@ const User = () => {
   const handleEditUser = (e) => {
     e.preventDefault();
 
+    // setEditPseudo(userChoice.pseudo)
+    // setEditAge(userChoice.ages)
+
     //important il faut remettre tout les champs de la data autrement il serait ecraser par un champ vide
+    
     const userData = {
       pseudo: editPseudo,
       ages: editAges,
@@ -41,55 +44,50 @@ const User = () => {
     // store.dispatch(editUsers(userData));
     console.log(userData)
     setEditToggle(false);
+
   };
 
 
   return (
-    <div>
-      {userChoice && (
-        <div>
-          <div className="user-container">
-            <div className="user">
-              <div className="userEdit">
-                <img
-                  onClick={() => setEditToggle(!editToggle)}
-                  src="./icons/edit.svg"
-                  alt="edit"
-                />
-                <img onClick={handleDel} src="./icons/delete.svg" alt="del" />
-              </div>
+    <div className="user-container">
+      <div className="user">
+        <div className="userEdit">
+          <img
+            onClick={() => setEditToggle(!editToggle)}
+            src="./icons/edit.svg"
+            alt="edit"
+          />
+          <img onClick={handleDel} src="./icons/delete.svg" alt="del" />
+        </div>
 
-              <img src="https://thispersondoesnotexist.com/image" alt="" />
+        <img src="https://thispersondoesnotexist.com/image" alt="" />
 
-              {editToggle ? (
-                <form onSubmit={(e) => handleEditUser(e)}>
-                  <input
-                    type="text"
-                    defaultValue={userChoice.pseudo}
-                    onChange={(e) => { setEditPseudo(e.target.value) }}
-                  />
-                  <input
-                    type="number"
-                    defaultValue={userChoice.ages}
-                    onChange={(e) => setEditAge(e.target.value)} />
+        {editToggle ? (
+          <form onSubmit={(e) => handleEditUser(e)}>
+            <input
+              type="text"
+              defaultValue={userChoice.pseudo}
+              onChange={(e) => setEditPseudo(e.target.value)}
+            />
+            <input
+              type="number"
+              defaultValue={userChoice.ages}
+              onChange={(e) => setEditAge(e.target.value)} />
 
-                  <input type="submit" value="modifier" />
-                </form>
-              ) : (
-                <div>
-                  <h3>{userChoice.pseudo}</h3>
-                  <h5>{userChoice.ages} ans</h5>
-                </div>
-
-              )}
-              <p>Like {userChoice.likes}</p>
-            </div>
+            <input type="submit" value="modifier" />
+          </form>
+        ) : (
+          <div>
+            <h3>{userChoice.pseudo}</h3>
+            <h5>{userChoice.ages} ans</h5>
           </div>
 
-        </div>
-      )}
+        )}
+        <p>Like {userChoice.likes}</p>
+      </div>
     </div>
   );
 };
 
 export default User;
+

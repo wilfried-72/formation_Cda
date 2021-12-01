@@ -95,7 +95,6 @@ export const editUsers = (data) => {
   };
 };
 
-
 export const choiceUser = (data) => {
   // console.log("choiceUser", data)
   return (dispatch) => {
