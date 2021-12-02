@@ -12,7 +12,7 @@ import { store } from "./store";
 
 // Actions (*)
 import { getPosts } from "./store/actions/PostAction";
-import {choiceUser, getUser} from "./store/actions/UserAction";
+import {getUser} from "./store/actions/UserAction";
 
 // ici on envoi getPosts des que le store est monté
 store.dispatch(getPosts())

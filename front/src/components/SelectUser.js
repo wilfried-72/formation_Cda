@@ -24,7 +24,7 @@ const SelectUser = () => {
         // console.log("Selected!!", e.target.value);;
 
         if (e.target.value === "all") {
-            const dataChoiceUserEmpty = []
+            const dataChoiceUserEmpty = ""
             store.dispatch(choiceUser(dataChoiceUserEmpty));
         }
         else {
@@ -41,7 +41,7 @@ const SelectUser = () => {
                     <div>
                         <h3>Choisir user:</h3>
                         <select onChange={(e) => handleChangeUser(e)}>
-                            <option defaultValue="all">All</option>
+                            <option value="all">All</option>
                             {select.map((select) => {
                                 return (
                                     <option value={select.pseudo} key={select._id}>

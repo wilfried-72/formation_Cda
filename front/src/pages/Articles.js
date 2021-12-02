@@ -13,7 +13,7 @@ const Articles = () => {
     const posts = useSelector((state) => state.postReducer.posts);
     // console.log("state posts ", posts);
     const userChoice = useSelector((state) => state.userReducer.choiceUser);
-    console.log("state choiceUser", userChoice);
+    // console.log("state choiceUser", userChoice);
 
     return (
         <div>

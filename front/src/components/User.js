@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 
 
@@ -13,10 +13,13 @@ const User = () => {
   const [editPseudo, setEditPseudo] = useState(userChoice.pseudo);
   const [editAges, setEditAge] = useState(userChoice.ages);
 
-  // console.log(editPseudo);
+  useEffect(() => {
+    setEditPseudo(userChoice.pseudo);
+    setEditAge(userChoice.ages)
+  }, [userChoice])
 
-  // console.log("editPseudo", editPseudo, userChoice.pseudo)
-  // console.log("editAges", editAges, userChoice.ages)
+  // console.log("editPseudo", editPseudo)
+  // console.log("editAges", editAges)
 
   // console.log("component userChoice ", userChoice)
   const handleDel = (e) => {
@@ -29,20 +32,20 @@ const User = () => {
   const handleEditUser = (e) => {
     e.preventDefault();
 
-    // setEditPseudo(userChoice.pseudo)
-    // setEditAge(userChoice.ages)
+    setEditPseudo(userChoice.pseudo)
+    setEditAge(userChoice.ages)
 
     //important il faut remettre tout les champs de la data autrement il serait ecraser par un champ vide
-    
+
     const userData = {
       pseudo: editPseudo,
       ages: editAges,
       likes: userChoice.likes,
       id: userChoice._id,
     };
-
-    // store.dispatch(editUsers(userData));
     console.log(userData)
+    // store.dispatch(editUsers(userData));
+   
     setEditToggle(false);
 
   };
@@ -67,13 +70,12 @@ const User = () => {
             <input
               type="text"
               defaultValue={userChoice.pseudo}
-              onChange={(e) => setEditPseudo(e.target.value)}
+              onChange={(e) => {setEditPseudo(e.target.value)}}
             />
             <input
               type="number"
               defaultValue={userChoice.ages}
-              onChange={(e) => setEditAge(e.target.value)} />
-
+              onChange={(e) => {setEditAge(e.target.value)}} />
             <input type="submit" value="modifier" />
           </form>
         ) : (
