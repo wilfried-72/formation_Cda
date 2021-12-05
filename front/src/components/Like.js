@@ -6,16 +6,15 @@ import { store } from "../store"
 
 const Like = (props) => {
   // console.log("props " ,props)
-  const { post, userChoice } = props;
+  const { post } = props;
+  // console.log( "post Component Like " ,post);
 
+  const users = useSelector((state) => state.userReducer.users);
+  // console.log("user in like component", users)
+  const userChoice = useSelector((state) => state.userReducer.choiceUser);
   // console.log("userChoiceLike ", userChoice)
-  // console.log(post);
 
-  const user = useSelector((state) => state.userReducer);
-  // console.log("user in like component", user)
- 
   const handleLike = () => {
-
     const postData = {
       title: post.title,
       author: post.author,
@@ -23,7 +22,7 @@ const Like = (props) => {
       likes: ++post.likes,
       id: post._id,
     };
-    
+
     store.dispatch(addLike(postData));
 
     if (post.author === userChoice.pseudo) {
@@ -34,32 +33,32 @@ const Like = (props) => {
         id: userChoice._id
       }
       // console.log("userData ", userData )
-      // console.log("author correspond");
-      store.dispatch(addUserLike(userData));
+      console.log("author correspond");
+      // store.dispatch(addUserLike(userData));
 
     }
     else {
 
       const userDataNone = {
-        ages: user.find((userFind) => userFind.pseudo === post.author).ages,
-        pseudo: user.find((userFind) => userFind.pseudo === post.author).pseudo,
-        likes: ++user.find((userFind) => userFind.pseudo === post.author).likes,
-        id: user.find((userFind) => userFind.pseudo === post.author)._id,
+        ages: users.find((userFind) => userFind.pseudo === post.author).ages,
+        pseudo: users.find((userFind) => userFind.pseudo === post.author).pseudo,
+        likes: ++users.find((userFind) => userFind.pseudo === post.author).likes,
+        id: users.find((userFind) => userFind.pseudo === post.author)._id,
       };
 
-      // console.log("userDataNone ", userDataNone )
-      // console.log("author ne correspond pas");
+      // console.log("userDataNone ", userDataNone)
+      console.log("author ne correspond pas");
       store.dispatch(addUserLike(userDataNone));
     }
 
   }
 
-return (
-  <div onClick={handleLike}>
-    <img src="./icons/clap.png" className="clap" alt="clap" />
-    <span>{post.likes}</span>
-  </div>
-);
+  return (
+    <div onClick={handleLike}>
+      <img src="./icons/clap.png" className="clap" alt="clap" />
+      <span>{post.likes}</span>
+    </div>
+  );
 };
 
 export default Like;

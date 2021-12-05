@@ -8,6 +8,7 @@ export const getPosts = () => {
     return axios
       .get("http://localhost:3003/api/posts")
       .then((res) => {
+        //  console.log("Action Get Post " ,res)
         // renvoi les data du type GET_POSTS pour notre exemple avec les data dans la reponse avec payload
         //dispatch veut dire va dans les reducers via index.js de reducers
         dispatch({
@@ -28,21 +29,11 @@ export const addPosts = (data) => {
     return axios
       .post("http://localhost:3003/api/posts", data)
       .then((res) => {
-        // console.log("Res Add Post ", res.data);
-
+        // console.log("Res Add Post ", res.data.posts);
         dispatch({
           type: ADD_POST,
-          payload: res.data.data,
+          payload: res.data,
         });
-
-        // Si back utilisé pour rafraichir les datas apres un del one
-        // ************************************
-        // dispatch({
-        //   type: GET_POST,
-        //   payload: res.data.dataGet,
-        // });
-        // ************************************
-        // si ne fonctionne pas alors console err
       })
       .catch((err) => console.log(err));
   };
@@ -60,7 +51,7 @@ export const editPosts = (data) => {
       .then((res) => {
         dispatch({
           type: EDIT_POST,
-          payload: res.data.dataEdit ,
+          payload: res.data.posts ,
         });
         // console.log("data.posts Edit " ,res.data.dataEdit)
         // si ne fonctionne pas alors console err
@@ -79,10 +70,10 @@ export const deletePost = (postId) => {
       url: `http://localhost:3003/api/posts/${postId}`,
     })
       .then((res) => {
-        console.log('res delete id', res.data)
+        console.log('res delete post', res.data)
         dispatch({
             type: DELETE_POST,
-            payload: {post: res.data.dataDel, message: res.data.message},
+            payload: res.data,
           });
         // si ne fonctionne pas alors console err
       })
@@ -100,9 +91,10 @@ export const addLike = (data) => {
       data: { ...data },
     })
       .then((res) => {
+        // console.log(res.data)
         dispatch({
           type: ADD_LIKE,
-          payload: { ...data.posts },
+          payload: res.data.posts,
         });
         // si ne fonctionne pas alors console err
       })

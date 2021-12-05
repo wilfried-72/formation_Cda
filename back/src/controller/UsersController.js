@@ -45,17 +45,17 @@ exports.create = (req, res) => {
 
 //update ONe
 exports.editOne = async (req, res) => {
-  //  console.log("Edit User", req.body, req.params.id);
-  const user = await User.findByIdAndUpdate(req.params.id, {
+  // console.log("Edit User", req.body, req.params.id);
+  await User.findByIdAndUpdate(req.params.id, {
     ...req.body,
     updatedDateTimestamp: new Date().getTime(),
   });
 
-  const userEdit = await User.find({ _id: req.params.id });
+  const users  = await User.find().sort("pseudo");
+  console.log("Edit User find users", users);
   res.json({
     message: "Modification du user avec success !",
-    user,
-    userEdit,
+    users,
   });
 };
 

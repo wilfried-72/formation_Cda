@@ -25,7 +25,7 @@ export const getUser = () => {
   }
 }
 export const addUserLike = (data) => {
-  // console.log("user action id ",data.id)
+  console.log("addUserLike action form ",data)
   return (dispatch) => {
     // ici on recupere les data dans la bases de données et on le tri par ordre decroissant via l'id
     // voir dans doc axios
@@ -35,10 +35,10 @@ export const addUserLike = (data) => {
       data: { ...data }
     })
       .then((res) => {
-        // console.log("addUserLike ",res.data.userEdit)
+        console.log("addUserLike ",res.data)
         dispatch({
           type: ADD_USER_LIKE,
-          payload: res.data.userEdit
+          payload: res.data.users
         })
         // si ne fonctionne pas alors console err
       })
@@ -59,15 +59,6 @@ export const addUser = (data) => {
           type: ADD_USER,
           payload: res.data.data,
         });
-
-        // Si back utilisé pour rafraichir les datas apres un del one
-        // ************************************
-        // dispatch({
-        //   type: GET_POST,
-        //   payload: res.data.dataGet,
-        // });
-        // ************************************
-        // si ne fonctionne pas alors console err
       })
       .catch((err) => console.log(err));
   };
@@ -83,10 +74,10 @@ export const editUsers = (data) => {
       data: { ...data },
     })
       .then((res) => {
-        // console.log("userEdit " ,res.data.userEdit[0])
+        // console.log("userEdit Action " ,res.data.users)
         dispatch({
           type: EDIT_USER,
-          payload: res.data.userEdit[0],
+          payload: res.data.users,
         });
 
         // si ne fonctionne pas alors console err
@@ -98,11 +89,25 @@ export const editUsers = (data) => {
 export const choiceUser = (data) => {
   // console.log("choiceUser", data)
   return (dispatch) => {
-      dispatch({
-        type: CHOICE_USER,
-        payload: data,
-      });
-    }
+    dispatch({
+      type: CHOICE_USER,
+      payload: data,
+    });
+
+    return axios.get("http://localhost:3003/api/users")
+      .then((res) => {
+        // renvoi les data du type GET_USER pour notre exemple avec les data dans la reponse avec payload
+        //dispatch veut dire va dans les reducers via index.js de reducers 
+        dispatch({
+          type: GET_USERS,
+          payload: res.data.users,
+        })
+        // console.log("Action User " ,res.data.users)
+        // si ne fonctionne pas alors console err
+      })
+      .catch((err) => console.log(err))
+
+  }
 };
 
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-const TopLike = (props) => {
+const LikeTopUser = (props) => {
   const { user } = props;
   // console.log(user);
 
@@ -13,4 +13,4 @@ const TopLike = (props) => {
   );
 };
 
-export default TopLike;
+export default LikeTopUser;

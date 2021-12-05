@@ -13,7 +13,7 @@ const Navigation = () => {
           À propos
         </NavLink>
         <NavLink to="/NewUser">
-      Créer utilisateur
+          Créer utilisateur
         </NavLink>
       </div>
     </div>

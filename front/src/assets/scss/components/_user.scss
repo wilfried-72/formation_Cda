@@ -4,11 +4,12 @@
   position: relative;
 
   .user {
+    margin-left: 30px;
     border: 1px solid $color-2;
     text-align: center;
     position: fixed;
-    transform: translateY(-150px);
-    width: 220px;
+    transform: translateY(-180px);
+    width: 150px;
     padding: 16px;
   }
 

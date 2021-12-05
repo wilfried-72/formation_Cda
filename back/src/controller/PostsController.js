@@ -9,10 +9,8 @@ const Posts = require("../database/model/posts");
 exports.getAll = async (req, res) => {
   // sans populate
   const posts = await Posts.find().sort("-createdDateTimestamp");
-
   //  console.log("Get posts","dbPosts", posts );
-  // res.json({ message: "Voici les " + posts.length + " post(s)", posts });
-  res.json({ posts });
+  res.json({ message: "Voici les " + posts.length + " post(s)", posts });
 };
 
 exports.getOne = async (req, res) => {
@@ -27,78 +25,33 @@ exports.create = async (req, res) => {
   const b = req.body;
   // console.log("Create post", "req.body", req.body);
   if (b.title && b.author) {
-    // On définit la construction de notre article
-
-    // Si front utilisé pour rafraichir les datas apres un del one
-    // ************************************
-    const posts = new Posts({
+    await Posts.create({
       ...req.body,
-      //   title: b.title,
-      //   author: b.author,
-      //   content: b.content,
-      //   likes: b.likes
       createdDateTimestamp: new Date().getTime(),
     });
+    const posts = await Posts.find({}).sort("-createdDateTimestamp");
+    // console.log(posts)
 
-    // Et on sauvegarde nos modifications
-    posts.save((err) => {
-      if (err) throw err;
-    });
-    // ************************************
-
-    // Si back utilisé pour rafraichir les datas apres un del one
-    // ************************************
-    // const posts = await Posts.create({
-    //   ...req.body,
-    //   createdDateTimestamp: new Date().getTime(),
-    // });
-    // const dataGet = await Posts.find({}).sort("-createdDateTimestamp");
-    // console.log(dataGet)
-    // ****************************
     res.json({
       message: "Le post a été crée avec success !",
-      data: posts,
-      // Si back utilisé pour rafraichir les datas apres un del one
-      // ************************************
-      // dataGet,
-      // ************************************
+      posts,
     });
   } else res.json({ message: "Error, le post n'a pas été fait!" });
 };
 
-// Si front utilisé pour rafraichir les datas apres un del one
-// ************************************
-//update ONe
-// exports.editOne = (req, res) => {
-//   // console.log("Edit posts", req.query, req.params.id);
-
-//   Posts.findByIdAndUpdate(
-//     req.params.id,
-//     { ...req.body, updatedDateTimestamp: new Date().getTime() },
-//     (err, data) => {
-//       if (err) throw err;
-//       res.json({ message: "Modification du Post avec success !", data });
-//     }
-//   );
-// };
-// ************************************
-
-// Si back utilisé pour rafraichir les datas apres un del one
-// ************************************
 //update ONe
 exports.editOne = async (req, res) => {
   // console.log("Edit posts", req.query, req.params.id);
-  const data = await Posts.findByIdAndUpdate(req.params.id, {
+  await Posts.findByIdAndUpdate(req.params.id, {
     ...req.body,
     updatedDateTimestamp: new Date().getTime(),
   });
 
-  let dataEdit = await Posts.find({ _id: req.params.id });
+ const posts = await Posts.find({}).sort("-createdDateTimestamp");
   // console.log("Find", dataEdit);
   res.json({
     message: "Modification du Post avec success !",
-    data,
-    dataEdit,
+    posts,
   });
 };
 // ************************************
@@ -108,13 +61,13 @@ exports.deleteOne = async (req, res) => {
   //   console.log("delete", req.query, req.params.id);
 
   Posts.findByIdAndDelete(req.params.id, async (err) => {
-    if  (err) throw err;
+    if (err) throw err;
   });
-  const dataDel = await Posts.find({}).sort("-createdDateTimestamp");
+  const posts = await Posts.find({}).sort("-createdDateTimestamp");
 
   res.json({
     message: "Ce post a bien été supprimé !",
-    dataDel,
+    posts,
   });
 };
 
