@@ -28,6 +28,9 @@ router
   .delete("/posts/:id", PostsController.deleteOne)
   .delete("/posts", PostsController.deleteAll)
 
+  // Route '/posts/likes' 
+  .put("/posts/likes/:id", PostsController.addLikes)
+
   // Route '/users'
   .get("/users", UsersController.getAll)
   .get("/users/:id", UsersController.getOne)
@@ -35,6 +38,9 @@ router
   .put("/users/:id", UsersController.editOne)
   .delete("/users/:id", UsersController.deleteOne)
   .delete("/users", UsersController.deleteAll)
+
+  // Route '/users/likes'
+  .put("/users/likes/:id", UsersController.addLikes)
 
   // Route '/favoris'
   .get("/favoris", FavorisController.getAll)

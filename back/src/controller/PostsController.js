@@ -79,3 +79,20 @@ exports.deleteAll = (req, res) => {
   });
   res.json({ message: "Tout les posts on été supprimés avec success !" });
 };
+
+//update ONe
+exports.addLikes = async (req, res) => {
+  // console.log("addLikes", req.query, req.params.id);
+  await Posts.findByIdAndUpdate(req.params.id, {
+    ...req.body,
+    updatedDateTimestamp: new Date().getTime(),
+  });
+
+ const posts = await Posts.find({}).sort("-createdDateTimestamp");
+  // console.log("Find", posts);
+  res.json({
+    message: "Ajout like for post !",
+    posts,
+  });
+};
+// ************************************

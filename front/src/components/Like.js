@@ -16,9 +16,9 @@ const Like = (props) => {
 
   const handleLike = () => {
     const postData = {
-      title: post.title,
-      author: post.author,
-      content: post.content,
+      // title: post.title,
+      // author: post.author,
+      // content: post.content,
       likes: ++post.likes,
       id: post._id,
     };
@@ -26,29 +26,28 @@ const Like = (props) => {
     store.dispatch(addLike(postData));
 
     if (post.author === userChoice.pseudo) {
-      const userData = {
-        ages: userChoice.ages,
-        pseudo: userChoice.pseudo,
+      const userAddLIkes = {
+        // ages: userChoice.ages,
+        // pseudo: userChoice.pseudo,
         likes: ++userChoice.likes,
         id: userChoice._id
       }
       // console.log("userData ", userData )
-      console.log("author correspond");
-      // store.dispatch(addUserLike(userData));
+      // console.log("author correspond");
+      store.dispatch(addUserLike(userAddLIkes));
 
     }
     else {
-
-      const userDataNone = {
-        ages: users.find((userFind) => userFind.pseudo === post.author).ages,
-        pseudo: users.find((userFind) => userFind.pseudo === post.author).pseudo,
+      const userAddLIkesWithoutSelect = {
+        // ages: users.find((userFind) => userFind.pseudo === post.author).ages,
+        // pseudo: users.find((userFind) => userFind.pseudo === post.author).pseudo,
         likes: ++users.find((userFind) => userFind.pseudo === post.author).likes,
         id: users.find((userFind) => userFind.pseudo === post.author)._id,
       };
 
-      // console.log("userDataNone ", userDataNone)
-      console.log("author ne correspond pas");
-      store.dispatch(addUserLike(userDataNone));
+      // console.log("userAddLIkesWithoutSelect ", userAddLIkesWithoutSelect)
+      // console.log("author ne correspond pas");
+      store.dispatch(addUserLike(userAddLIkesWithoutSelect));
     }
 
   }

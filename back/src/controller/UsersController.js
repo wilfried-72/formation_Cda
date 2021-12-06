@@ -52,7 +52,7 @@ exports.editOne = async (req, res) => {
   });
 
   const users  = await User.find().sort("pseudo");
-  console.log("Edit User find users", users);
+  // console.log("Edit User find users", users);
   res.json({
     message: "Modification du user avec success !",
     users,
@@ -79,3 +79,22 @@ exports.deleteAll = (req, res) => {
   });
   res.json({ message: "Tout les User on été supprimés avec success !" });
 };
+
+
+
+// Add like
+exports.addLikes= async (req, res) => {
+  // console.log("addLikes User", req.body, req.params.id);
+  await User.findByIdAndUpdate(req.params.id, {
+    ...req.body,
+    updatedDateTimestamp: new Date().getTime(),
+  });
+
+  const users  = await User.find().sort("pseudo");
+  // console.log("addLikes User find .", users);
+  res.json({
+    message: "Ajout like for user !",
+    users,
+  });
+};
+

@@ -87,7 +87,7 @@ export const addLike = (data) => {
     // voir dans doc axios
     return axios({
       method: "put",
-      url: `http://localhost:3003/api/posts/${data.id}`,
+      url: `http://localhost:3003/api/posts/likes/${data.id}`,
       data: { ...data },
     })
       .then((res) => {
