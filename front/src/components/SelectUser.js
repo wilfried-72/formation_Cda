@@ -28,9 +28,7 @@ const SelectUser = (props) => {
                         <h3>Choisir user:</h3>
                         <select onChange={(e) => handleChangeUser(e)}>
                             <option value="all">All</option>
-                            {users && users.sort(function (a, b) {
-                                return b.pseudo - a.pseudo;
-                            }).map((select) => {
+                            {users && users.map((select) => {
                                 return (
                                     <option value={select.pseudo} key={select._id}>
                                         {select.pseudo}
