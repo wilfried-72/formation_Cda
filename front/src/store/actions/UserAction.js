@@ -14,6 +14,7 @@ export const getUser = () => {
       .then((res) => {
         // renvoi les data du type GET_USER pour notre exemple avec les data dans la reponse avec payload
         //dispatch veut dire va dans les reducers via index.js de reducers 
+        // console.log("data.users getUser Action ",res.data.users)
         dispatch({
           type: GET_USERS,
           payload: res.data.users,

@@ -17,10 +17,10 @@ export const datePaser = (date) => {
     year: "numeric",
     month: "long",
     day: "numeric",
-   hour: "numeric",
+    hour: "numeric",
     minute: "numeric",
     second: "numeric",
   });
 
-  return DateModif ;
+  return DateModif;
 };

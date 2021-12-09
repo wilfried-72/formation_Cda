@@ -29,7 +29,7 @@ exports.create = async (req, res) => {
       ...req.body,
       createdDateTimestamp: new Date().getTime(),
     });
-    const posts = await Posts.find({}).sort("-createdDateTimestamp");
+    const posts = await Posts.find().sort("-createdDateTimestamp");
     // console.log(posts)
 
     res.json({
@@ -63,7 +63,7 @@ exports.deleteOne = async (req, res) => {
   Posts.findByIdAndDelete(req.params.id, async (err) => {
     if (err) throw err;
   });
-  const posts = await Posts.find({}).sort("-createdDateTimestamp");
+  const posts = await Posts.find().sort("-createdDateTimestamp");
 
   res.json({
     message: "Ce post a bien été supprimé !",

@@ -55,19 +55,19 @@ const Post = (props) => {
   // console.log("userChoice " ,userChoice.pseudo)
   // console.log("postAuthor " ,post.author)
 
-  if (editSalert) {
-    const MySwal = withReactContent(Swal)
-    MySwal.fire({
-      title: <strong>{editSalert}</strong>,
-      icon: 'info',
-      timer: 3000,
-      willClose: () => 
-        setEditSalert("")
-    })
+  // if (editSalert) {
+  //   const MySwal = withReactContent(Swal)
+  //   MySwal.fire({
+  //     title: <strong>{editSalert}</strong>,
+  //     icon: 'info',
+  //     timer: 3000,
+  //     willClose: () => 
+  //       setEditSalert("")
+  //   })
 
-    // console.log("state message1", editSalert)
+  //   // console.log("state message1", editSalert)
     
-  }
+  // }
 
   return (
     <div className="post">
