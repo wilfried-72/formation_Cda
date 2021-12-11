@@ -59,7 +59,7 @@ const Articles = () => {
                 </div>
 
                 {userChoice.pseudo &&
-                    <User />
+                    <User users={users} userChoice={userChoice} />
                 }
 
             </div>

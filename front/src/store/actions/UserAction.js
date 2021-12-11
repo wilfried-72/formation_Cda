@@ -3,7 +3,7 @@ import axios from "axios";
 /*
  * Import types { ... }
  * ******************** */
-import { ADD_USER, ADD_USER_LIKE, CHOICE_USER, EDIT_USER, GET_USERS } from "./ActionTypes";
+import { ADD_USER, ADD_USER_LIKE, CHOICE_USER, EDIT_POST, EDIT_USER, GET_USERS } from "./ActionTypes";
 
 
 export const getUser = () => {
@@ -55,10 +55,10 @@ export const addUser = (data) => {
       .post("http://localhost:3003/api/users", data)
       .then((res) => {
         //    console.log("Res Add User ", res.data);
-        console.log("Res message ", res.data.message);
+        console.log("Res message addUser ", res.data);
         dispatch({
           type: ADD_USER,
-          payload: res.data.data,
+          payload: res.data,
         });
       })
       .catch((err) => console.log(err));
@@ -75,12 +75,31 @@ export const editUsers = (data) => {
       data: { ...data },
     })
       .then((res) => {
-        // console.log("userEdit Action " ,res.data.users)
-        dispatch({
-          type: EDIT_USER,
-          payload: res.data.users,
-        });
+        // console.log("Res message editUser ", res.data.message);
+        // console.log("Res type editUser ", res.data.error);
+        // console.log("userEdit Action res.data.posts ", res.data.posts)
+        // console.log("userEdit Action res.data.users", res.data.users)
+        // console.log("userEdit Action res.data.usersId[0] ", res.data.usersId[0])
 
+        if (!res.data.error) {
+          dispatch({
+            type: EDIT_USER,
+            payload: res.data,
+          })
+          dispatch({
+            type: EDIT_POST,
+            payload: res.data.posts,
+          });
+          dispatch({
+            type: CHOICE_USER,
+            payload: res.data.usersId[0],
+          });
+        } else {
+          dispatch({
+            type: EDIT_USER,
+            payload: res.data,
+          })
+        }
         // si ne fonctionne pas alors console err
       })
       .catch((err) => console.log(err));
@@ -94,20 +113,6 @@ export const choiceUser = (data) => {
       type: CHOICE_USER,
       payload: data,
     });
-
-    return axios.get("http://localhost:3003/api/users")
-      .then((res) => {
-        // renvoi les data du type GET_USER pour notre exemple avec les data dans la reponse avec payload
-        //dispatch veut dire va dans les reducers via index.js de reducers 
-        dispatch({
-          type: GET_USERS,
-          payload: res.data.users,
-        })
-        // console.log("Action User " ,res.data.users)
-        // si ne fonctionne pas alors console err
-      })
-      .catch((err) => console.log(err))
-
   }
 };
 

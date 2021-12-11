@@ -12,10 +12,12 @@ export default function PostReducer(state = initialState, action) {
     // ici la les data du json
     // et par défaut la variable state qui est vide via initialSate si aucun case n'est trouvé
     case Actions.GET_POST:
+      // console.log('Je suis dans le get post', state)
       return { ...state, posts: action.payload };
     case Actions.ADD_POST:
       return { ...state, posts: action.payload.posts, flashs: action.payload.message };
     case Actions.EDIT_POST:
+      // console.log('Je suis dans le edit post', action.payload)
       return { ...state, posts: action.payload };
     case Actions.DELETE_POST:
       return { ...state, posts: action.payload.posts, flashs: action.payload.message };

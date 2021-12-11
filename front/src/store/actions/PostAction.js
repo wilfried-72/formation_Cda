@@ -8,7 +8,7 @@ export const getPosts = () => {
     return axios
       .get("http://localhost:3003/api/posts")
       .then((res) => {
-        //  console.log("Action Get Post " ,res)
+        // console.log("Action Get Post " ,res)
         // renvoi les data du type GET_POSTS pour notre exemple avec les data dans la reponse avec payload
         //dispatch veut dire va dans les reducers via index.js de reducers
         dispatch({
