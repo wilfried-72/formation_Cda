@@ -105,7 +105,6 @@ export const editUsers = (data) => {
       .catch((err) => console.log(err));
   };
 };
-
 export const choiceUser = (data) => {
   // console.log("choiceUser", data)
   return (dispatch) => {
@@ -116,5 +115,25 @@ export const choiceUser = (data) => {
   }
 };
 
+export const deleteUser = (userId) => {
+  return (dispatch) => {
+    // ici on recupere les data dans la bases de données et on le tri par ordre decroissant via l'id
+    // voir dans doc axios
+    // console.log("postId Delete", postId);
+    return axios({
+      method: "delete",
+      url: `http://localhost:3003/api/users/${userId}`,
+    })
+      .then((res) => {
+        console.log('res delete user', res.data)
+        // dispatch({
+        //     type: DELETE_POST,
+        //     payload: res.data,
+        //   });
+        // si ne fonctionne pas alors console err
+      })
+      .catch((err) => console.log(err));
+  };
+};
 
 

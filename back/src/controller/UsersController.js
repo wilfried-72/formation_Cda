@@ -14,11 +14,11 @@ exports.getAll = async (req, res) => {
 };
 
 // GetOne
-exports.getOne = async (req, res) => {
-  const users = await User.findById(req.params.id);
-  // console.log("Get one User", req.query, req.params.id);
-  res.json({ message: "Voici l'utilisateur demandé", users });
-};
+// exports.getOne = async (req, res) => {
+//   const users = await User.findById(req.params.id);
+//   // console.log("Get one User", req.query, req.params.id);
+//   res.json({ message: "Voici l'utilisateur demandé", users });
+// };
 
 // Create
 exports.create = async (req, res) => {
@@ -35,7 +35,7 @@ exports.create = async (req, res) => {
     // console.log("usersExits", userExits.length )
 
     if (userExits.length > 0) {
-      res.json({ error: "Le pseudo " + pseudoFormated + " est déjà existant", message: "Ce pseudo est déjà existant" , data: [] });
+      res.json({ error: "Le pseudo " + pseudoFormated + " est déjà existant", message: "Ce pseudo est déjà existant", data: [] });
     } else {
       //On définit la construction de notre user
       const user = new User({
@@ -127,25 +127,35 @@ exports.editOne = async (req, res) => {
 };
 
 // Delete One
-exports.deleteOne = (req, res) => {
-  //   console.log("delete", req.query, req.params.id);
+exports.deleteOne = async (req, res) => {
+  console.log("delete", req.query, req.params.id);
+
+  const userFind = await User.findByIdAndUpdate(req.params.id)
+  const userOrigin = userFind.pseudo
+  console.log("userOrigin  controlleur User ", userOrigin)
 
   User.findByIdAndDelete(req.params.id, (err) => {
     if (err) throw err;
-    res.json({
-      message: "Cet user a bien été supprimé !",
-    });
   });
+
+  await Posts.deleteMany({ "author": userOrigin });
+
+  const posts = await Posts.find().sort("-createdDateTimestamp");
+
+  res.json({
+    message: "Cet user a bien été supprimé !",
+    posts
+  })
 };
 
-// Delete All
-exports.deleteAll = (req, res) => {
-  //   console.log("delete");
-  User.deleteMany({}, (err) => {
-    if (err) throw err;
-  });
-  res.json({ message: "Tout les User on été supprimés avec success !" });
-};
+// // Delete All
+// exports.deleteAll = (req, res) => {
+//   //   console.log("delete");
+//   User.deleteMany({}, (err) => {
+//     if (err) throw err;
+//   });
+//   res.json({ message: "Tout les User on été supprimés avec success !" });
+// };
 
 
 // Add like

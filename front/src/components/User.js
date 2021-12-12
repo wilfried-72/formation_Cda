@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { editUsers } from '../store/actions/UserAction';
+import { deleteUser, editUsers } from '../store/actions/UserAction';
 import { store } from "../store"
 import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2'
+
 
 const User = (props) => {
   const { userChoice, users } = props
@@ -24,10 +26,32 @@ const User = (props) => {
 
   // console.log("component userChoice ", userChoice)
   const handleDel = (e) => {
-    if (window.confirm("Voulez vous supprimer cet user")) {
-      console.log("c'est supprimé")
-      // store.dispatch(deletePost(userChoice._id));
-    }
+
+    Swal.fire({
+      title: 'Etes-vous sûr de supprimer cet utilisateur',
+      text: "Cette action est irreversible !",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Non',
+      showClass: {
+        popup: 'animate__animated animate__zoomInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__zoomOut'
+      }      
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("c'est supprimé")
+        store.dispatch(deleteUser(userChoice._id));
+      }
+    })
+
+    // if (window.confirm("Voulez vous supprimer cet user")) {
+ 
+    // }
   };
 
   const handleEditUser = (e) => {

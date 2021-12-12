@@ -13,12 +13,12 @@ exports.getAll = async (req, res) => {
   res.json({ message: "Voici les " + posts.length + " post(s)", posts });
 };
 
-exports.getOne = async (req, res) => {
-  // sans populate
-  const posts = await Posts.findById(req.params.id);
-  // console.log("Get one posts", req.query, req.params.id);
-  res.json({ message: "Voici le post demandé", posts });
-};
+// exports.getOne = async (req, res) => {
+//   // sans populate
+//   const posts = await Posts.findById(req.params.id);
+//   // console.log("Get one posts", req.query, req.params.id);
+//   res.json({ message: "Voici le post demandé", posts });
+// };
 
 // Create
 exports.create = async (req, res) => {
@@ -72,13 +72,13 @@ exports.deleteOne = async (req, res) => {
 };
 
 // Delete All
-exports.deleteAll = (req, res) => {
-  //   console.log("delete");
-  Posts.deleteMany({}, (err) => {
-    if (err) throw err;
-  });
-  res.json({ message: "Tout les posts on été supprimés avec success !" });
-};
+// exports.deleteAll = (req, res) => {
+//   //   console.log("delete");
+//   Posts.deleteMany({}, (err) => {
+//     if (err) throw err;
+//   });
+//   res.json({ message: "Tout les posts on été supprimés avec success !" });
+// };
 
 //update ONe
 exports.addLikes = async (req, res) => {

@@ -20,7 +20,7 @@ const CreateUser = () => {
 
     useEffect(() => {
         setEditSalert(message) 
-    }, [])
+    }, [message])
 
     if (editSalert) {
         const MySwal = withReactContent(Swal)

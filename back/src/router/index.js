@@ -17,38 +17,38 @@ const PostsController = require("../controller/PostsController"),
 
 // Route '/posts'
 router
-  .get("/", AllController.getAll)
+  // .get("/", AllController.getAll)
 
 // Route '/posts'
 router
   .get("/posts", PostsController.getAll)
-  .get("/posts/:id", PostsController.getOne)
+  // .get("/posts/:id", PostsController.getOne)
   .post("/posts", PostsController.create)
   .put("/posts/:id", PostsController.editOne)
   .delete("/posts/:id", PostsController.deleteOne)
-  .delete("/posts", PostsController.deleteAll)
+  // .delete("/posts", PostsController.deleteAll)
 
   // Route '/posts/likes' 
   .put("/posts/likes/:id", PostsController.addLikes)
 
   // Route '/users'
   .get("/users", UsersController.getAll)
-  .get("/users/:id", UsersController.getOne)
+  // .get("/users/:id", UsersController.getOne)
   .post("/users", UsersController.create)
   .put("/users/:id", UsersController.editOne)
   .delete("/users/:id", UsersController.deleteOne)
-  .delete("/users", UsersController.deleteAll)
+  // .delete("/users", UsersController.deleteAll)
 
   // Route '/users/likes'
   .put("/users/likes/:id", UsersController.addLikes)
 
   // Route '/favoris'
-  .get("/favoris", FavorisController.getAll)
-  .get("/favoris/:id", FavorisController.getOne)
-  .post("/favoris", FavorisController.create)
-  .put("/favoris/:id", FavorisController.editOne)
-  .delete("/favoris/:id", FavorisController.deleteOne)
-  .delete("/favoris", FavorisController.deleteAll)
+  // .get("/favoris", FavorisController.getAll)
+  // .get("/favoris/:id", FavorisController.getOne)
+  // .post("/favoris", FavorisController.create)
+  // .put("/favoris/:id", FavorisController.editOne)
+  // .delete("/favoris/:id", FavorisController.deleteOne)
+  // .delete("/favoris", FavorisController.deleteAll)
 
 // router.route('/fav')
 // .get()

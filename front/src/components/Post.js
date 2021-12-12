@@ -7,8 +7,8 @@ import { store } from "../store"
 import { datePaser } from "./Utils";
 import { useSelector } from "react-redux";
 
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+// import Swal from 'sweetalert2'
+// import withReactContent from 'sweetalert2-react-content'
 
 const Post = (props) => {
   const { post, index } = props;
@@ -16,10 +16,10 @@ const Post = (props) => {
   // on recupere les data de notre store 
   const userChoice = useSelector((state) => state.userReducer.choiceUser);
   // console.log("state choiceUser", userChoice);
-  const message = useSelector((state) => state.postReducer.flashs);
+  // const message = useSelector((state) => state.postReducer.flashs);
   // console.log("state message", message)
 
-  const [editSalert, setEditSalert] = useState(message);
+  // const [editSalert, setEditSalert] = useState(message);
   // console.log("state message1", editSalert)
 
   const [editToggle, setEditToggle] = useState(false);
