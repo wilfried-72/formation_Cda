@@ -41,8 +41,7 @@ export const addPosts = (data) => {
 
 export const editPosts = (data) => {
   return (dispatch) => {
-    // ici on recupere les data dans la bases de données et on le tri par ordre decroissant via l'id
-    // voir dans doc axios
+console.log("edit posts")
     return axios({
       method: "put",
       url: `http://localhost:3003/api/posts/${data.id}`,

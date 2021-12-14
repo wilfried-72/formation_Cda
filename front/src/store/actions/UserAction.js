@@ -3,7 +3,7 @@ import axios from "axios";
 /*
  * Import types { ... }
  * ******************** */
-import { ADD_USER, ADD_USER_LIKE, CHOICE_USER, EDIT_POST, EDIT_USER, GET_USERS } from "./ActionTypes";
+import { ADD_USER, ADD_USER_LIKE, CHOICE_USER, DELETE_USER, DEL_FLASH_USER, EDIT_POST, EDIT_USER, GET_POST, GET_USERS } from "./ActionTypes";
 
 
 export const getUser = () => {
@@ -55,7 +55,7 @@ export const addUser = (data) => {
       .post("http://localhost:3003/api/users", data)
       .then((res) => {
         //    console.log("Res Add User ", res.data);
-        console.log("Res message addUser ", res.data);
+        // console.log("Res message addUser ", res.data);
         dispatch({
           type: ADD_USER,
           payload: res.data,
@@ -76,12 +76,13 @@ export const editUsers = (data) => {
     })
       .then((res) => {
         // console.log("Res message editUser ", res.data.message);
-        // console.log("Res type editUser ", res.data.error);
-        // console.log("userEdit Action res.data.posts ", res.data.posts)
-        // console.log("userEdit Action res.data.users", res.data.users)
-        // console.log("userEdit Action res.data.usersId[0] ", res.data.usersId[0])
+        // console.log("Res type editUser ", res.data.type);
 
-        if (!res.data.error) {
+        if (res.data.type === "success") {
+          // console.log("success")
+          // console.log("userEdit Action res.data.posts ", res.data.posts)
+          // console.log("userEdit Action res.data.users", res.data)
+          // console.log("userEdit Action res.data.usersId[0] ", res.data.usersId[0])
           dispatch({
             type: EDIT_USER,
             payload: res.data,
@@ -94,13 +95,34 @@ export const editUsers = (data) => {
             type: CHOICE_USER,
             payload: res.data.usersId[0],
           });
-        } else {
+        }
+        else {
           dispatch({
             type: EDIT_USER,
             payload: res.data,
           })
         }
         // si ne fonctionne pas alors console err
+      })
+      .catch((err) => console.log(err));
+  };
+};
+export const deleteUser = (userId) => {
+  return (dispatch) => {
+    return axios({
+      method: "delete",
+      url: `http://localhost:3003/api/users/${userId}`,
+    })
+      .then((res) => {
+        // console.log('res delete user', res.data)
+        dispatch({
+          type: DELETE_USER,
+          payload: res.data,
+        });
+        dispatch({
+          type: GET_POST,
+          payload: res.data.posts,
+        });
       })
       .catch((err) => console.log(err));
   };
@@ -114,26 +136,13 @@ export const choiceUser = (data) => {
     });
   }
 };
-
-export const deleteUser = (userId) => {
+export const deleteFlashsUser = () => {
+  // console.log("choiceUser", data)
   return (dispatch) => {
-    // ici on recupere les data dans la bases de données et on le tri par ordre decroissant via l'id
-    // voir dans doc axios
-    // console.log("postId Delete", postId);
-    return axios({
-      method: "delete",
-      url: `http://localhost:3003/api/users/${userId}`,
-    })
-      .then((res) => {
-        console.log('res delete user', res.data)
-        // dispatch({
-        //     type: DELETE_POST,
-        //     payload: res.data,
-        //   });
-        // si ne fonctionne pas alors console err
-      })
-      .catch((err) => console.log(err));
-  };
+    dispatch({
+      type: DEL_FLASH_USER,
+      payload: "",
+    });
+  }
 };
-
 

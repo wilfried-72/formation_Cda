@@ -3,12 +3,12 @@
  * ****************** */
 
 // Import Model
-const User = require("../database/model/users");
+const Users = require("../database/model/users");
 const Posts = require("../database/model/posts")
 
 // GetAll
 exports.getAll = async (req, res) => {
-  const users = await User.find().sort("pseudo");
+  const users = await Users.find().sort("pseudo");
   // console.log("Get User","dbUser", users);
   res.json({ users });
 };
@@ -30,32 +30,42 @@ exports.create = async (req, res) => {
     const pseudoFormated = b.pseudo[0].toUpperCase() + b.pseudo.slice(1).toLowerCase()
     // console.log("pseudoFormated", pseudoFormated)
 
-    const userExits = await User.find({ "pseudo": pseudoFormated })
+    const userExits = await Users.find({ "pseudo": pseudoFormated })
     // console.log("usersExits", userExits)
     // console.log("usersExits", userExits.length )
 
     if (userExits.length > 0) {
-      res.json({ error: "Le pseudo " + pseudoFormated + " est déjà existant", message: "Ce pseudo est déjà existant", data: [] });
+      const users = await Users.find().sort("pseudo");
+      // console.log('usersExist in create user controller', users)
+
+      res.json({
+        type: "error",
+        message: "Le pseudo " + pseudoFormated + " est déjà existant",
+        data: users
+      });
     } else {
-      //On définit la construction de notre user
-      const user = new User({
+      await Users.create({
         pseudo: pseudoFormated,
         ages: b.ages
       });
 
-      // Et on sauvegarde nos modifications
-      user.save((err) => {
-        if (err) {
-          throw err;
-        }
+      const users = await Users.find().sort("pseudo");
+      // console.log('users in create user controller', users)
 
-        res.json({
-          message: "Votre compte a bien été crée !",
-          data: user,
-        });
+      res.json({
+        type: "success",
+        message: "Votre compte a bien été crée !",
+        data: users
       });
     }
-  } else res.json({ type: "Error", message: "Veuillez saisir un pseudo" });
+  } else {
+    const users = await Users.find().sort("pseudo");
+    res.json({
+      type: "info",
+      message: "Veuillez saisir un pseudo",
+      data: users
+    });
+  }
 };
 
 //update ONe
@@ -63,22 +73,22 @@ exports.editOne = async (req, res) => {
   // console.log("Edit User", req.body, req.params.id);
   const pseudoFormated = req.body.pseudo[0].toUpperCase() + req.body.pseudo.slice(1).toLowerCase()
 
-  const userExits = await User.find({ "pseudo": pseudoFormated })
+  const userExits = await Users.find({ "pseudo": pseudoFormated })
   // console.log("usersExits", userExits)
 
-  const userFind = await User.findByIdAndUpdate(req.params.id)
+  const userFind = await Users.findByIdAndUpdate(req.params.id)
   const userOrigin = userFind.pseudo
   // console.log("userOrigin  controlleur User ", userOrigin)
 
   if (userOrigin === req.body.pseudo) {
     // console.log("les deux pseudo correspondent")
-    await User.findByIdAndUpdate(req.params.id, {
+    await Users.findByIdAndUpdate(req.params.id, {
       ages: req.body.ages,
       updatedDateTimestamp: new Date().getTime(),
     });
 
-    const users = await User.find().sort("pseudo");
-    const usersId = await User.find({ _id: req.params.id });
+    const users = await Users.find().sort("pseudo");
+    const usersId = await Users.find({ _id: req.params.id });
     const posts = await Posts.find().sort("-createdDateTimestamp");
 
     // console.log("Edit users Modifié", usersId);
@@ -86,7 +96,8 @@ exports.editOne = async (req, res) => {
     // console.log("get All posts", posts);
 
     res.json({
-      message: "Modification du user avec success !",
+      type: "success",
+      message: "L'age de cet utilisateur a été modifié !",
       users,
       usersId,
       posts
@@ -94,11 +105,15 @@ exports.editOne = async (req, res) => {
   }
   else {
     if (userExits.length > 0) {
-      const users = await User.find().sort("pseudo");
-      res.json({ error: "le pseudo " + req.body.pseudo + " est déjà existant", message: "Ce pseudo est déjà existant", users, });
+      const users = await Users.find().sort("pseudo");
+      res.json({
+        type: "error",
+        message: "Le pseudo " + pseudoFormated + " est déjà existant",
+        users,
+      });
     } else {
       // console.log("les deux pseudo ne correspondent pas")
-      await User.findByIdAndUpdate(req.params.id, {
+      await Users.findByIdAndUpdate(req.params.id, {
         ages: req.body.ages,
         pseudo: pseudoFormated,
         updatedDateTimestamp: new Date().getTime(),
@@ -110,12 +125,13 @@ exports.editOne = async (req, res) => {
       // const postModified = await Posts.find({ author: pseudoFormated })
       // console.log("Les posts de cet user ", postModified)
 
-      const users = await User.find().sort("pseudo");
-      const usersId = await User.find({ _id: req.params.id });
+      const users = await Users.find().sort("pseudo");
+      const usersId = await Users.find({ _id: req.params.id });
       const posts = await Posts.find().sort("-createdDateTimestamp");
 
       res.json({
-        message: "Modification du user avec success !",
+        type: "success",
+        message: "Le pseudo de cet utilisateur a été modifié !",
         users,
         usersId,
         posts
@@ -128,30 +144,32 @@ exports.editOne = async (req, res) => {
 
 // Delete One
 exports.deleteOne = async (req, res) => {
-  console.log("delete", req.query, req.params.id);
+  // console.log("delete", req.query, req.params.id);
 
-  const userFind = await User.findByIdAndUpdate(req.params.id)
+  const userFind = await Users.findByIdAndUpdate(req.params.id)
   const userOrigin = userFind.pseudo
-  console.log("userOrigin  controlleur User ", userOrigin)
+  // console.log("userOrigin  controlleur User ", userOrigin)
 
-  User.findByIdAndDelete(req.params.id, (err) => {
+  Users.findByIdAndDelete(req.params.id, (err) => {
     if (err) throw err;
   });
-
   await Posts.deleteMany({ "author": userOrigin });
 
   const posts = await Posts.find().sort("-createdDateTimestamp");
+  const users = await Users.find().sort("pseudo");
 
   res.json({
-    message: "Cet user a bien été supprimé !",
-    posts
+    type: "success",
+    message: "Cet utilisateur a bien été supprimé !",
+    posts,
+    users
   })
 };
 
 // // Delete All
 // exports.deleteAll = (req, res) => {
 //   //   console.log("delete");
-//   User.deleteMany({}, (err) => {
+//   Users.deleteMany({}, (err) => {
 //     if (err) throw err;
 //   });
 //   res.json({ message: "Tout les User on été supprimés avec success !" });
@@ -161,12 +179,12 @@ exports.deleteOne = async (req, res) => {
 // Add like
 exports.addLikes = async (req, res) => {
   // console.log("addLikes User", req.body, req.params.id);
-  await User.findByIdAndUpdate(req.params.id, {
+  await Users.findByIdAndUpdate(req.params.id, {
     ...req.body,
     updatedDateTimestamp: new Date().getTime(),
   });
 
-  const users = await User.find().sort("pseudo");
+  const users = await Users.find().sort("pseudo");
   // console.log("addLikes User find .", users);
   res.json({
     message: "Ajout like for user !",

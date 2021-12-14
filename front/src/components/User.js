@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { deleteUser, editUsers } from '../store/actions/UserAction';
+import { choiceUser, deleteFlashsUser, deleteUser, editUsers } from '../store/actions/UserAction';
 import { store } from "../store"
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content';
 
 
 const User = (props) => {
@@ -10,6 +11,9 @@ const User = (props) => {
 
   const message = useSelector((state) => state.userReducer.flashs);
   // console.log("state message", message)
+  const TypeMessage = useSelector((state) => state.userReducer.typeFlashs);
+  // console.log("state TypeMessage", TypeMessage)
+
   const dataChoiceUser = users.find((userFind) => userFind.pseudo === userChoice.pseudo);
 
   const [editToggle, setEditToggle] = useState(false);
@@ -24,10 +28,28 @@ const User = (props) => {
   // console.log("editPseudo", editPseudo)
   // console.log("editAges", editAges)
 
+  if (message) {
+    // setEditSalert(message)
+    const MySwalUserEdit = withReactContent(Swal)
+    MySwalUserEdit.fire({
+      title: <strong>{message}</strong>,
+      icon: TypeMessage,
+      timer: 2000,
+      showClass: {
+        popup: 'animate__animated animate__backInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__backOutDown'
+      },
+      willClose: () => { store.dispatch(deleteFlashsUser()) }
+    })
+  }
+
   // console.log("component userChoice ", userChoice)
   const handleDel = (e) => {
 
-    Swal.fire({
+    const MySwalDelConfirm = withReactContent(Swal)
+    MySwalDelConfirm.fire({
       title: 'Etes-vous sûr de supprimer cet utilisateur',
       text: "Cette action est irreversible !",
       icon: 'warning',
@@ -41,16 +63,17 @@ const User = (props) => {
       },
       hideClass: {
         popup: 'animate__animated animate__zoomOut'
-      }      
+      }
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("c'est supprimé")
+        // console.log("c'est supprimé")
+        // store.dispatch(deleteFlashsUser())
+        store.dispatch(choiceUser(""))
         store.dispatch(deleteUser(userChoice._id));
       }
     })
 
     // if (window.confirm("Voulez vous supprimer cet user")) {
- 
     // }
   };
 
@@ -108,7 +131,7 @@ const User = (props) => {
           ) : (
             <div>
               <h3>{dataChoiceUser.pseudo}</h3>
-              <span>{message}</span>
+              {/* <span>{message}</span> */}
               <h5>{dataChoiceUser.ages} ans</h5>
             </div>
 
