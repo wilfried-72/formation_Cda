@@ -10,7 +10,7 @@ export const getUser = () => {
   return (dispatch) => {
     // ici on recupere les data dans la bases de données
     // voir dans doc axios
-    return axios.get("http://localhost:3003/api/users")
+    return axios.get(process.env.REACT_APP_SERVEUR+"/api/users")
       .then((res) => {
         // renvoi les data du type GET_USER pour notre exemple avec les data dans la reponse avec payload
         //dispatch veut dire va dans les reducers via index.js de reducers 
@@ -32,7 +32,7 @@ export const addUserLike = (data) => {
     // voir dans doc axios
     return axios({
       method: "put",
-      url: `http://localhost:3003/api//users/likes/${data.id}`,
+      url: process.env.REACT_APP_SERVEUR+`/api//users/likes/${data.id}`,
       data: { ...data }
     })
       .then((res) => {
@@ -52,7 +52,7 @@ export const addUser = (data) => {
     // ici on recupere les data dans la bases de données et on le tri par ordre decroissant via l'id
     // voir dans doc axios
     return axios
-      .post("http://localhost:3003/api/users", data)
+      .post(process.env.REACT_APP_SERVEUR+"/api/users", data)
       .then((res) => {
         //    console.log("Res Add User ", res.data);
         // console.log("Res message addUser ", res.data);
@@ -71,7 +71,7 @@ export const editUsers = (data) => {
     // voir dans doc axios
     return axios({
       method: "put",
-      url: `http://localhost:3003/api/users/${data.id}`,
+      url: process.env.REACT_APP_SERVEUR+`/api/users/${data.id}`,
       data: { ...data },
     })
       .then((res) => {
@@ -111,7 +111,7 @@ export const deleteUser = (userId) => {
   return (dispatch) => {
     return axios({
       method: "delete",
-      url: `http://localhost:3003/api/users/${userId}`,
+      url: process.env.REACT_APP_SERVEUR+`/api/users/${userId}`,
     })
       .then((res) => {
         // console.log('res delete user', res.data)

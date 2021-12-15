@@ -1,12 +1,18 @@
 import axios from "axios";
-import {ADD_LIKE, ADD_POST, DELETE_POST, EDIT_POST, GET_POST } from "./ActionTypes";
+import {
+  ADD_LIKE,
+  ADD_POST,
+  DELETE_POST,
+  EDIT_POST,
+  GET_POST,
+} from "./ActionTypes";
 
 export const getPosts = () => {
   return (dispatch) => {
     // ici on recupere les data dans la bases de données et on le tri par ordre decroissant via l'id
     // voir dans doc axios
     return axios
-      .get("http://localhost:3003/api/posts")
+      .get(process.env.REACT_APP_SERVEUR + "/api/posts")
       .then((res) => {
         // console.log("Action Get Post " ,res)
         // renvoi les data du type GET_POSTS pour notre exemple avec les data dans la reponse avec payload
@@ -27,7 +33,7 @@ export const addPosts = (data) => {
     // ici on recupere les data dans la bases de données et on le tri par ordre decroissant via l'id
     // voir dans doc axios
     return axios
-      .post("http://localhost:3003/api/posts", data)
+      .post(process.env.REACT_APP_SERVEUR + "/api/posts", data)
       .then((res) => {
         // console.log("Res Add Post ", res.data.posts);
         dispatch({
@@ -41,16 +47,16 @@ export const addPosts = (data) => {
 
 export const editPosts = (data) => {
   return (dispatch) => {
-console.log("edit posts")
+    console.log("edit posts");
     return axios({
       method: "put",
-      url: `http://localhost:3003/api/posts/${data.id}`,
+      url: process.env.REACT_APP_SERVEUR + `/api/posts/${data.id}`,
       data: { ...data },
     })
       .then((res) => {
         dispatch({
           type: EDIT_POST,
-          payload: res.data.posts ,
+          payload: res.data.posts,
         });
         // console.log("data.posts Edit " ,res.data.dataEdit)
         // si ne fonctionne pas alors console err
@@ -66,14 +72,14 @@ export const deletePost = (postId) => {
     // console.log("postId Delete", postId);
     return axios({
       method: "delete",
-      url: `http://localhost:3003/api/posts/${postId}`,
+      url: process.env.REACT_APP_SERVEUR + `/api/posts/${postId}`,
     })
       .then((res) => {
-        console.log('res delete post', res.data)
+        console.log("res delete post", res.data);
         dispatch({
-            type: DELETE_POST,
-            payload: res.data,
-          });
+          type: DELETE_POST,
+          payload: res.data,
+        });
         // si ne fonctionne pas alors console err
       })
       .catch((err) => console.log(err));
@@ -86,7 +92,7 @@ export const addLike = (data) => {
     // voir dans doc axios
     return axios({
       method: "put",
-      url: `http://localhost:3003/api/posts/likes/${data.id}`,
+      url: process.env.REACT_APP_SERVEUR + `/api/posts/likes/${data.id}`,
       data: { ...data },
     })
       .then((res) => {
