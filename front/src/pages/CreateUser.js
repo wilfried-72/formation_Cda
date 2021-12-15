@@ -30,7 +30,7 @@ const CreateUser = () => {
             hideClass: {
                 popup: 'animate__animated animate__backOutDown'
             },
-            willClose: () => { store.dispatch(deleteFlashsUser()) }
+            willClose: () => { store.dispatch(deleteFlashsUser("")) }
         })
     }
 

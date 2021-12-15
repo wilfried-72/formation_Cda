@@ -33,10 +33,14 @@ exports.create = async (req, res) => {
     // console.log(posts)
 
     res.json({
+      type: "success",
       message: "Le post a été crée avec success !",
       posts,
     });
-  } else res.json({ message: "Error, le post n'a pas été fait!" });
+  } else res.json({
+    type: "success",
+    message: "Le post n'a pas été crée!"
+  });
 };
 
 //update ONe
@@ -47,10 +51,11 @@ exports.editOne = async (req, res) => {
     updatedDateTimestamp: new Date().getTime(),
   });
 
- const posts = await Posts.find({}).sort("-createdDateTimestamp");
+  const posts = await Posts.find({}).sort("-createdDateTimestamp");
   // console.log("Find", dataEdit);
   res.json({
-    message: "Modification du Post avec success !",
+    type: "info",
+    message: "Modification du contenu de ce post avec success !",
     posts,
   });
 };
@@ -66,6 +71,7 @@ exports.deleteOne = async (req, res) => {
   const posts = await Posts.find().sort("-createdDateTimestamp");
 
   res.json({
+    type: "info",
     message: "Ce post a bien été supprimé !",
     posts,
   });
@@ -88,9 +94,10 @@ exports.addLikes = async (req, res) => {
     updatedDateTimestamp: new Date().getTime(),
   });
 
- const posts = await Posts.find({}).sort("-createdDateTimestamp");
+  const posts = await Posts.find({}).sort("-createdDateTimestamp");
   // console.log("Find", posts);
   res.json({
+    type: "info",
     message: "Ajout like for post !",
     posts,
   });

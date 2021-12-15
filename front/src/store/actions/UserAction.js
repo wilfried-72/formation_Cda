@@ -123,6 +123,10 @@ export const deleteUser = (userId) => {
           type: GET_POST,
           payload: res.data.posts,
         });
+        dispatch({
+          type: CHOICE_USER,
+          payload: "",
+        });
       })
       .catch((err) => console.log(err));
   };
@@ -136,12 +140,12 @@ export const choiceUser = (data) => {
     });
   }
 };
-export const deleteFlashsUser = () => {
+export const deleteFlashsUser = (data) => {
   // console.log("choiceUser", data)
   return (dispatch) => {
     dispatch({
       type: DEL_FLASH_USER,
-      payload: "",
+      payload: data,
     });
   }
 };

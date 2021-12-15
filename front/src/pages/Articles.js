@@ -15,7 +15,7 @@ const Articles = () => {
     const users = useSelector((state) => state.userReducer.users);
     // console.log("state user ", users);
     const userChoice = useSelector((state) => state.userReducer.choiceUser);
-    // console.log("state choiceUser", userChoice);
+    console.log("state choiceUser", userChoice);
 
     return (
         <div>

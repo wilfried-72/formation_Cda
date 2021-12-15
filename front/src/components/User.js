@@ -14,6 +14,23 @@ const User = (props) => {
   const TypeMessage = useSelector((state) => state.userReducer.typeFlashs);
   // console.log("state TypeMessage", TypeMessage)
 
+
+  if (message) {
+    const MySwalUserEdit = withReactContent(Swal)
+    MySwalUserEdit.fire({
+      title: <strong>{message}</strong>,
+      icon: TypeMessage,
+      timer: 2000,
+      showClass: {
+        popup: 'animate__animated animate__backInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__backOutDown'
+      },
+      willClose: () => { store.dispatch(deleteFlashsUser("")) }
+    })
+  }
+
   const dataChoiceUser = users.find((userFind) => userFind.pseudo === userChoice.pseudo);
 
   const [editToggle, setEditToggle] = useState(false);
@@ -28,22 +45,7 @@ const User = (props) => {
   // console.log("editPseudo", editPseudo)
   // console.log("editAges", editAges)
 
-  if (message) {
-    // setEditSalert(message)
-    const MySwalUserEdit = withReactContent(Swal)
-    MySwalUserEdit.fire({
-      title: <strong>{message}</strong>,
-      icon: TypeMessage,
-      timer: 2000,
-      showClass: {
-        popup: 'animate__animated animate__backInDown'
-      },
-      hideClass: {
-        popup: 'animate__animated animate__backOutDown'
-      },
-      willClose: () => { store.dispatch(deleteFlashsUser()) }
-    })
-  }
+
 
   // console.log("component userChoice ", userChoice)
   const handleDel = (e) => {
@@ -67,8 +69,6 @@ const User = (props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         // console.log("c'est supprimé")
-        // store.dispatch(deleteFlashsUser())
-        store.dispatch(choiceUser(""))
         store.dispatch(deleteUser(userChoice._id));
       }
     })
@@ -98,9 +98,7 @@ const User = (props) => {
 
   };
 
-
   return (
-
     <div className="user-container">
       {dataChoiceUser && (
         <div className="user">
