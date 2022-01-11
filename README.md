@@ -1,4 +1,18 @@
 # Mes Projets lors de la formation CDA
+<h1 align="center">Bienvenue dans mon repo formation 👋</h1>
+<p>
+</p>
+
+[![OS - Linux](https://img.shields.io/badge/OS-Linux-blue?logo=linux&logoColor=white&style=plastic)](https://www.linux.org/ "Go to Linux homepage")
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/Naereen/badges)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![npm](https://img.shields.io/npm/v/npm?color=red&label=npm&logo=npm&logoColor=red&style=social)
+![npm](https://img.shields.io/npm/v/react?color=blue&label=react&logo=react&logoColor=blue&style=social)
+![npm](https://img.shields.io/npm/v/redux?color=blue&label=redux&logo=redux&logoColor=white&style=plastic)
+![npm](https://img.shields.io/npm/v/react-router-dom?color=blue&label=react-router-dom&logo=react-router&logoColor=blue&style=plastic)
+![npm](https://img.shields.io/npm/v/react-router?color=red&label=react-router&logo=react-router&logoColor=red&style=plastic)
+
+
 
 # Version nodeJs use
 - V14.18.1
@@ -97,3 +111,28 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+## Tech Stack
+
+<left>
+
+| Front         | Back      | 
+| :---          | ---:      |     
+| React         | Java      | 
+| Redux         | Mysql     | 
+| Node-sass     |           | 
+| MUI           |           |
+
+</left>
+
+
+
+## 👤 Author 
+
+**liwza**
+
+
+## License
+
+Released under [MIT](/LICENSE).
