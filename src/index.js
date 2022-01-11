@@ -1,27 +1,36 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-// mis en commentaire car pas use dans tuto
-// import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import App from "./App";
+// import "./styles/index.scss";
+import { store } from "./store";
+import { StyledEngineProvider } from "@mui/material/styles";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
-//importation du style avec sass
-import "./styles/index.scss"
+import { getWeather, getWeathersWeek } from "./store/actions/WeatherActions";
 
-// mis en commentaire car pas use dans tuto
-// import reportWebVitals from './reportWebVitals';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme/index';
+import "./styles/index.scss";
 
-//rend l'application au niveau de l'id root dans fichier index.html
+// Cats
+// import { getImages } from "./store/actions/ImagesActions";
+
+store.dispatch(getWeather("Paris"));
+store.dispatch(getWeathersWeek("Paris"));
+// Cats
+// store.dispatch(getImages());
+
 ReactDOM.render(
-  <React.StrictMode>
-  {/* en dessou on appelle le composant app.js */}
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <StyledEngineProvider injectFirst>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+      </ThemeProvider>
+    </Provider>
+  </StyledEngineProvider>,
+
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-
-// mis en commentaire car pas use dans tuto
-// reportWebVitals();
